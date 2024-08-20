@@ -21,6 +21,7 @@ public class PlanService {
 
     public String addPlan(Plan plan) {
         planDao.save(plan);
+        System.out.println("HETYYTY");
         return "Plan Type Added";
     }
 
@@ -52,10 +53,12 @@ public class PlanService {
     
     
     
-    public String deletePrepaidPlan(Integer plan_id) {
-        Prepaid prepaid = prepaidDao.findById(plan_id).orElseThrow(() -> new RuntimeException("Prepaid Plan not found"));
+    public Prepaid deletePrepaidPlan(Integer plan_id) {
+        Prepaid prepaid1 = prepaidDao.findById(plan_id).orElseThrow(() -> new RuntimeException("Prepaid Plan not found"));
         prepaidDao.deleteById(plan_id);
-        return "Prepaid Plan Deleted";
+        //return "Prepaid Plan Deleted";
+        return prepaid1;
+
     }
 
     public Plan deletePlan(Integer pid) {

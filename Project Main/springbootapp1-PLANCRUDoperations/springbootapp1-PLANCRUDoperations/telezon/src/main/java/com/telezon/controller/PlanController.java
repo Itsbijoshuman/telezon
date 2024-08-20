@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.telezon.model.Plan;
+import com.telezon.model.Prepaid;
 import com.telezon.service.PlanService;
 @RestController
 public class PlanController {
@@ -25,8 +26,24 @@ public class PlanController {
 		
 		return planService.getPlans();
 	}
-	
-	
+	@GetMapping("/prepaid")
+	public List<Prepaid> getPrepaidDetails(){
+		
+		return planService.getPrepaidPlans();
+	}
+	@PostMapping("/prepaid")
+	public String addPrepaidDetails(@RequestBody Prepaid prepaid) {
+		String result = planService.addPrepaidPlan(prepaid);
+		return result;
+	}
+	@PutMapping("/prepaid/{prepaid}")
+	public Prepaid updatePrepaidDetails(@PathVariable("plan_id") Integer plan_id,@RequestBody Prepaid prepaid) {
+		return planService.updatePrepaid(plan_id, prepaid);
+	}
+	@DeleteMapping("/prepaid/{prepaid}")
+	public Prepaid deletePrepaidDetails(@PathVariable("plan_id")Integer plan_id) {
+		return planService.deletePrepaidPlan(plan_id);
+	}
 	  @PostMapping("/plan") 
 	  public String  addPlanDetails(@RequestBody	  Plan plan) {
 		    String result= planService.addPlan(plan);
