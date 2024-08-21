@@ -17,7 +17,7 @@ public class Plan {
 	String pname;
     @Column(name="duration")
 	Integer duration;
-	Plan(){
+	public Plan(){
 	
 	}
 	public Plan(Integer pid, String pname, Integer duration) {

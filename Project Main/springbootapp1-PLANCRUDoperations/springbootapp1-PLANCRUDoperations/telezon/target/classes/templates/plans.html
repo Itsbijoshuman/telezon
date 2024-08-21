@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Plan Management</title>
+    <meta charset="UTF-8">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <h1>Plan Management</h1>
+    <h2>Add Plan</h2>
+    <form action="#" th:action="@{/api/plans}" th:object="${plan}" method="post">
+        <label for="pname">Name:</label>
+        <input type="text" id="pname" th:field="*{pname}" />
+        <label for="duration">Duration:</label>
+        <input type="text" id="duration" th:field="*{duration}" />
+        <button type="submit">Add Plan</button>
+    </form>
+
+    <h2>All Plans</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="plan : ${plans}">
+                <td th:text="${plan.pid}"></td>
+                <td th:text="${plan.pname}"></td>
+                <td th:text="${plan.duration}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

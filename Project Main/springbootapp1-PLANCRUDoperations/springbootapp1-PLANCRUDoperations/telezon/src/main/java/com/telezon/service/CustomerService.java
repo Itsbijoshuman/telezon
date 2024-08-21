@@ -1,18 +1,16 @@
 package com.telezon.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.telezon.dao.CustomerDao;
-import com.telezon.dao.PostpaidDao;
 import com.telezon.dao.PrepaidDao;
-import com.telezon.model.Customer;	
-import com.telezon.model.Postpaid;
+import com.telezon.dao.PostpaidDao;
+import com.telezon.model.Customer;
 import com.telezon.model.Prepaid;
+import com.telezon.model.Postpaid;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,43 +27,37 @@ public class CustomerService {
 
     public String addCustomer(Customer customer) {
         customerDao.save(customer);
-        return "Customer Added Successfully";
+        return "Customer Added";
     }
 
-    public Optional<Customer> getCustomerById(Integer customerId) {
-        return customerDao.findById(customerId);
+    public List<Customer> getAllCustomers() {
+        return customerDao.findAll();
     }
 
-    public String updateCustomer(Integer customerId, Customer updatedCustomer) {
+    public Customer getCustomerById(Integer customerId) {
+        return customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
+
+    public Customer updateCustomer(Integer customerId, Customer customer) {
         Customer existingCustomer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
-        existingCustomer.setName(updatedCustomer.getName());
-        existingCustomer.setEmail(updatedCustomer.getEmail());
-        existingCustomer.setPhoneNumber(updatedCustomer.getPhoneNumber());
-        customerDao.save(existingCustomer);
-        return "Customer Updated Successfully";
+        existingCustomer.setName(customer.getName());
+        existingCustomer.setEmail(customer.getEmail());
+        existingCustomer.setPhoneNumber(customer.getPhoneNumber());
+        existingCustomer.setPrepaidPlan(customer.getPrepaidPlan());
+        existingCustomer.setPostpaidPlan(customer.getPostpaidPlan());
+        return customerDao.save(existingCustomer);
     }
 
-    public String assignPrepaidPlanToCustomer(Integer customerId, Integer prepaidPlanId) {
-        Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
-        Prepaid prepaidPlan = prepaidDao.findById(prepaidPlanId).orElseThrow(() -> new RuntimeException("Prepaid plan not found"));
-        customer.setPrepaidPlan(prepaidPlan);
-        customer.setPostpaidPlan(null);  // Ensures only one type of plan is assigned
-        customerDao.save(customer);
-        return "Prepaid Plan Assigned to Customer";
-    }
-
-    public String assignPostpaidPlanToCustomer(Integer customerId, Integer postpaidPlanId) {
-        Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
-        Postpaid postpaidPlan = postpaidDao.findById(postpaidPlanId).orElseThrow(() -> new RuntimeException("Postpaid plan not found"));
-        customer.setPostpaidPlan(postpaidPlan);
-        customer.setPrepaidPlan(null);  // Ensures only one type of plan is assigned
-        customerDao.save(customer);
-        return "Postpaid Plan Assigned to Customer";
-    }
-
-    public String deleteCustomer(Integer customerId) {
+    public void deleteCustomer(Integer customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
         customerDao.delete(customer);
-        return "Customer Deleted Successfully";
+    }
+
+    public List<Prepaid> getPrepaidPlans() {
+        return prepaidDao.findAll();
+    }
+
+    public List<Postpaid> getPostpaidPlans() {
+        return postpaidDao.findAll();
     }
 }
