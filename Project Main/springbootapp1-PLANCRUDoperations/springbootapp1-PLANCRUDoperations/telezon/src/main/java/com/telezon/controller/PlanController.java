@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.telezon.model.Plan;
 import com.telezon.model.Prepaid;
 import com.telezon.service.PlanService;
+import com.telezon.model.Postpaid;
 @RestController
 public class PlanController {
 	
@@ -23,7 +24,7 @@ public class PlanController {
 	PlanService planService;
 	@GetMapping("/plan")
 	public List<Plan> getPlanDetails() {
-		
+			
 		return planService.getPlans();
 	}
 	@GetMapping("/prepaid")
@@ -47,8 +48,7 @@ public class PlanController {
 	  @PostMapping("/plan") 
 	  public String  addPlanDetails(@RequestBody	  Plan plan) {
 		    String result= planService.addPlan(plan);
-		  return  result;
-	 
+		  return  result; 
 	  }
 	
 	@PutMapping("/plan/{pid}") 

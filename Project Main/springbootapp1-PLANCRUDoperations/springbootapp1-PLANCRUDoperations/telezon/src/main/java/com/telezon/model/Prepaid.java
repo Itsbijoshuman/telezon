@@ -3,6 +3,8 @@ package com.telezon.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -11,11 +13,19 @@ import jakarta.persistence.Table;
 public class Prepaid {
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer plan_id;
-	@Column
+	
+    @Column(name="plan_name")
 	String plan_name;
+    
+    @Column(name="plan_price")
 	Double plan_price;
+    
+    @Column(name="plan_duration")
 	Integer plan_duration;
+    
+    @Column(name="plan_data_limit")
 	Double plan_data_limit;
 	
 	@Override
@@ -41,7 +51,7 @@ public class Prepaid {
 	}
 	public void setPname(String pname) {
 		this.plan_name = plan_name;
-	}
+	}	
 	public Integer getDuration() {
 		return plan_duration;
 	}

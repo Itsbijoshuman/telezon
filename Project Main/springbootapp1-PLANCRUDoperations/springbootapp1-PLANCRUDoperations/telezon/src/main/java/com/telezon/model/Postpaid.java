@@ -2,6 +2,8 @@ package com.telezon.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -10,27 +12,28 @@ import jakarta.persistence.Table;
 public class Postpaid {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer plan_id;
 
-    @Column
+    @Column(name="plan_name")
     String plan_name;
 
-    @Column
+    @Column(name="plan_price")
     Double plan_price;
 
-    @Column
-    Integer plan_duration;
+    @Column(name="plan_bill_cycle")
+    Integer plan_bill_cycle;
 
-    @Column
-    Double plan_data_limit;
+    @Column(name="plan_data_cap")
+    Double plan_data_cap;
 
     @Override
     public String toString() {
         return "postpaid [plan_id=" + plan_id +
                ", plan_name=" + plan_name +
                ", plan_price=" + plan_price +
-               ", plan_duration=" + plan_duration +
-               ", plan_data_limit=" + plan_data_limit + "]";
+               ", plan_bill_cycle=" + plan_bill_cycle +
+               ", plan_data=" + plan_data_cap + "]";
     }
 
     public Integer getPlanId() {
@@ -57,19 +60,19 @@ public class Postpaid {
         this.plan_name = plan_name;
     }
 
-    public Integer getPlanDuration() {
-        return plan_duration;
+    public Integer getPlanBillCycle() {
+        return plan_bill_cycle;
     }
 
-    public void setPlanDuration(Integer plan_duration) {
-        this.plan_duration = plan_duration;
+    public void setPlanBillCycle(Integer plan_duration) {
+        this.plan_bill_cycle = plan_duration;
     }
 
-    public Double getPlanDataLimit() {
-        return plan_data_limit;
+    public Double getPlanDataCap() {
+        return plan_data_cap;
     }
 
-    public void setPlanDataLimit(Double plan_data_limit) {
-        this.plan_data_limit = plan_data_limit;
+    public void setPlanDataCap(Double plan_data_limit) {
+        this.plan_data_cap = plan_data_limit;
     }
 }
