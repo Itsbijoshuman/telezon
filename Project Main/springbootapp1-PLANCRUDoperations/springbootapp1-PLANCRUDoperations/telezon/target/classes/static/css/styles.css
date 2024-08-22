@@ -100,7 +100,7 @@ form button:hover {
 }
 
 table {
-    width: 138%;
+    width: 90%;
     margin: 20px auto;
     border-collapse: collapse;
 }
@@ -133,42 +133,4 @@ table tr:hover {
     to {
         opacity: 1;
     }
-}
-
-.main-content {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-}
-
-.form-container {
-    flex: 3;
-}
-
-.sidebar {
-    flex: 1;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-height: calc(100vh - 360px); 
-    overflow-y: auto; 
-}
-
-.sidebar h2, .sidebar h3 {
-    margin-top: 0;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.sidebar ul li:last-child {
-    border-bottom: none;
 }

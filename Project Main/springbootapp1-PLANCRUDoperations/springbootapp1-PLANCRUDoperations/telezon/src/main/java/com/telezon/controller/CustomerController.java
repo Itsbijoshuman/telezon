@@ -1,16 +1,11 @@
 package com.telezon.controller;
 
-import com.telezon.model.Customer;
-import com.telezon.model.Postpaid;
-import com.telezon.model.Prepaid;
-import com.telezon.service.CustomerService;
-import com.telezon.service.PostpaidService;
-import com.telezon.service.PrepaidService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.telezon.model.Customer;
+import com.telezon.service.CustomerService;
 
 import java.util.List;
 
@@ -21,29 +16,18 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private PostpaidService postpaidService;
-
-    @Autowired
-    private PrepaidService prepaidService;
-
     @GetMapping
     public String listCustomers(Model model) {
         List<Customer> customers = customerService.getCustomers();
-        List<Postpaid> postpaidPlans = postpaidService.getPostpaidPlans();
-        List<Prepaid> prepaidPlans = prepaidService.getPrepaidPlans();
-
         model.addAttribute("customers", customers);
         model.addAttribute("customer", new Customer());
-        model.addAttribute("postpaidPlans", postpaidPlans);
-        model.addAttribute("prepaidPlans", prepaidPlans);
         return "customers"; // This should match the template filename without the .html extension
     }
 
     @PostMapping
     public String addCustomer(@ModelAttribute("customer") Customer customer) {
         customerService.addCustomer(customer);
-        return "redirect:/customers";
+        return "redirect:/customers";  
     }
 
     @GetMapping("/{id}")
