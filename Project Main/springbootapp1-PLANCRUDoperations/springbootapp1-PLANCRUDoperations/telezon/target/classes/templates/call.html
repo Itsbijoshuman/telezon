@@ -12,7 +12,7 @@
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/plans">Plans</a></li>
-            <li><a href="/calls">Calls</a></li> <!-- Added navigation link for Calls -->
+            <li><a href="/calls">Calls</a></li> <!-- Navigation link for Calls -->
         </ul>
     </nav>
 
@@ -23,8 +23,11 @@
         <label for="cid">ID:</label>
         <input type="text" id="cid" th:field="*{cid}" />
         
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}" />
+        <label for="fromName">From Name:</label>
+        <input type="text" id="fromName" th:field="*{fromName}" />
+        
+        <label for="toName">To Name:</label>
+        <input type="text" id="toName" th:field="*{toName}" />
         
         <label for="totalDuration">Total Duration:</label>
         <input type="text" id="totalDuration" th:field="*{totalDuration}" />
@@ -40,7 +43,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>From Name</th>
+                <th>To Name</th>
                 <th>Total Duration</th>
                 <th>Used Duration</th>
                 <th>Remaining Duration</th>
@@ -49,7 +53,8 @@
         <tbody>
             <tr th:each="call : ${calls}">
                 <td th:text="${call.cid}"></td>
-                <td th:text="${call.name}"></td>
+                <td th:text="${call.fromName}"></td>
+                <td th:text="${call.toName}"></td>
                 <td th:text="${call.totalDuration}"></td>
                 <td th:text="${call.usedDuration}"></td>
                 <td th:text="${call.remainingDuration}"></td>
