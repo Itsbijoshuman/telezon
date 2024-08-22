@@ -1,7 +1,7 @@
 package com.telezon.service;
 
 import com.telezon.dao.DataDao;
-import com.telezon.model.DataUsage;
+import com.telezon.model.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,23 +14,23 @@ public class DataService {
     @Autowired
     private DataDao dataDao;
 
-    public List<DataUsage> getAllDataUsages() {
+    public List<Data> getAllData() {
         return dataDao.findAll();
     }
 
-    public Optional<DataUsage> getDataUsageById(int id) {
+    public Optional<Data> getDataById(int id) {
         return dataDao.findById(id);
     }
 
-    public void saveDataUsage(DataUsage dataUsage) {
-        dataDao.save(dataUsage);
+    public void saveData(Data data) {
+        dataDao.save(data);
     }
 
-    public void updateDataUsage(DataUsage dataUsage) {
-        dataDao.save(dataUsage); // save can handle both insert and update
+    public void updateData(Data data) {
+        dataDao.save(data); // save can handle both insert and update
     }
 
-    public void deleteDataUsage(int id) {
+    public void deleteData(int id) {
         dataDao.deleteById(id);
     }
 }

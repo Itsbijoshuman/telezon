@@ -19,7 +19,7 @@
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
-    <form action="#" th:action="@{/data}" th:object="${dataUsage}" method="post">
+    <form action="#" th:action="@{/data}" th:object="${data}" method="post">
         <label for="id">ID:</label>
         <input type="text" id="id" th:field="*{id}" />
         
@@ -47,7 +47,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="data : ${dataUsages}">
+            <tr th:each="data : ${dataList}">
                 <td th:text="${data.id}"></td>
                 <td th:text="${data.name}"></td>
                 <td th:text="${data.totalData}"></td>
