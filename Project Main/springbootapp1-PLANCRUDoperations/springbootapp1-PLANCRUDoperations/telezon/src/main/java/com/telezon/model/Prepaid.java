@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 public class Prepaid {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer planId;
 
     @Column(name="plan_name")
