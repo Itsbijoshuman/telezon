@@ -5,8 +5,19 @@
     <meta charset="UTF-8">
     <title>Your Page Title</title>
     <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/script.js" defer></script>
+
 </head>
 <body>
+	    <nav>
+        <ul>
+            <li><a href="/postpaid">Postpaid Plans</a></li>
+            <li><a href="/prepaid">Prepaid Plans</a></li>
+            <li><a href="/customers">Customers</a></li>
+            <li><a href="/plans">Plans</a></li>
+        </ul>
+    </nav>
+
     <h1>Plan Management</h1>
     <h2>Add Plan</h2>
     <form action="#" th:action="@{/plans}" th:object="${plan}" method="post">
