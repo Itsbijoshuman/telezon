@@ -1,6 +1,5 @@
 package com.telezon.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,58 +10,71 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="prepaid")
 public class Prepaid {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer plan_id;
-	
+    private Integer planId;
+
     @Column(name="plan_name")
-	String plan_name;
-    
+    private String planName;
+
     @Column(name="plan_price")
-	Double plan_price;
-    
-    @Column(name="plan_duration")
-	Integer plan_duration;
-    
-    @Column(name="plan_data_limit")
-	Double plan_data_limit;
-	
-	@Override
-	public String toString() {
-		return "prepaid [plan_id=" + plan_id + ", plan_name=" + plan_name + ", plan_price=" + plan_price+ " plan_duration=" + plan_duration + ", plan_data_limit="+plan_data_limit+"]";
-	}
-	public Integer getPid() {
-		return plan_id;
-	}
-	public void setPid(Integer plan_id) {
-		this.plan_id = plan_id;
-	}
-	
-	public Double getPlanPrice() {
-		return plan_price;
-	}
-	public void setPlanPrice(Double plan_price) {
-		this.plan_price = plan_price;
-	}
-	
-	public String getPname() {
-		return plan_name;
-	}
-	public void setPname(String pname) {
-		this.plan_name = plan_name;
-	}	
-	public Integer getDuration() {
-		return plan_duration;
-	}
-	public void setDuration(Integer plan_duration) {
-		this.plan_duration = plan_duration;
-	}
-	public void setPlanLimit(Double plan_duration) {
-		this.plan_data_limit = plan_data_limit;
-	}
-	public Double getPlanLimit() {
-		return plan_data_limit;
-	}
-	
+    private Double planPrice;
+
+    @Column(name="plan_limit")
+    private Double planLimit;
+
+    @Column(name="duration")
+    private Integer duration;
+
+    // Getters and Setters
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
+
+    public Double getPlanPrice() {
+        return planPrice;
+    }
+
+    public void setPlanPrice(Double planPrice) {
+        this.planPrice = planPrice;
+    }
+
+    public Double getPlanLimit() {
+        return planLimit;
+    }
+
+    public void setPlanLimit(Double planLimit) {
+        this.planLimit = planLimit;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "Prepaid [planId=" + planId +
+               ", planName=" + planName +
+               ", planPrice=" + planPrice +
+               ", planLimit=" + planLimit +
+               ", duration=" + duration + "]";
+    }
 }

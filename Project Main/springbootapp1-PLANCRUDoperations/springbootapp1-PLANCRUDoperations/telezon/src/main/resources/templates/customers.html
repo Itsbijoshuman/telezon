@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customer Management</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <h1>Customer Management</h1>
+    
+    <h2>Add Customer</h2>
+    <form action="#" th:action="@{/customers}" th:object="${customer}" method="post">
+        <label for="id">ID:</label>
+        <input type="text" id="id" th:field="*{id}" />
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <label for="email">Email:</label>
+        <input type="text" id="email" th:field="*{email}" />
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" />
+        <label for="prepaidPlan">Prepaid Plan ID:</label>
+        <input type="text" id="prepaidPlan" th:field="*{prepaidPlan}" />
+        <label for="postpaidPlan">Postpaid Plan ID:</label>
+        <input type="text" id="postpaidPlan" th:field="*{postpaidPlan}" />
+        <button type="submit">Add Customer</button>
+    </form>
+
+    <h2>All Customers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Prepaid Plan ID</th>
+                <th>Postpaid Plan ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.id}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.phoneNumber}"></td>
+                <td th:text="${customer.prepaidPlan}"></td>
+                <td th:text="${customer.postpaidPlan}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

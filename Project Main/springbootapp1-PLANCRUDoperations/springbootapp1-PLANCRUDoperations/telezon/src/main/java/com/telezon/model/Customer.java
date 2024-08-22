@@ -2,57 +2,42 @@ package com.telezon.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "customers")
+@Table(name="customer")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer customerId;
+    private Integer id;
 
-    @Column(nullable = false,name="name")
+    @Column(name="name")
     private String name;
 
-    @Column(unique = true, nullable = false,name="email")
+    @Column(name="email")
     private String email;
 
-    @Column(nullable = false,name="phone_number")
+    @Column(name="phone_number")
     private String phoneNumber;
 
-    // A customer can either choose a prepaid or postpaid plan, not both
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prepaid_plan_id")
-    private Prepaid prepaidPlan;
+    @Column(name="prepaid_plan")
+    private Integer prepaidPlan;  // Assuming it's an ID reference
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postpaid_plan_id")
-    private Postpaid postpaidPlan;
-
-    public Customer() {
-    }
-
-    public Customer(Integer customerId, String name, String email, String phoneNumber) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
+    @Column(name="postpaid_plan")
+    private Integer postpaidPlan; // Assuming it's an ID reference
 
     // Getters and Setters
-    public Integer getCustomerId() {
-        return customerId;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -79,24 +64,29 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Prepaid getPrepaidPlan() {
+    public Integer getPrepaidPlan() {
         return prepaidPlan;
     }
 
-    public void setPrepaidPlan(Prepaid prepaidPlan) {
+    public void setPrepaidPlan(Integer prepaidPlan) {
         this.prepaidPlan = prepaidPlan;
     }
 
-    public Postpaid getPostpaidPlan() {
+    public Integer getPostpaidPlan() {
         return postpaidPlan;
     }
 
-    public void setPostpaidPlan(Postpaid postpaidPlan) {
+    public void setPostpaidPlan(Integer postpaidPlan) {
         this.postpaidPlan = postpaidPlan;
     }
 
     @Override
     public String toString() {
-        return "Customer [customerId=" + customerId + ", name=" + name + ", email=" + email + ", phoneNumber=" + phoneNumber + "]";
+        return "Customer [id=" + id +
+               ", name=" + name +
+               ", email=" + email +
+               ", phoneNumber=" + phoneNumber +
+               ", prepaidPlan=" + prepaidPlan +
+               ", postpaidPlan=" + postpaidPlan + "]";
     }
 }

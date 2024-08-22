@@ -18,23 +18,23 @@ public class CustomerController {
 
     @GetMapping
     public String listCustomers(Model model) {
-        List<Customer> customers = customerService.getAllCustomers();
+        List<Customer> customers = customerService.getCustomers();
         model.addAttribute("customers", customers);
         model.addAttribute("customer", new Customer());
-        return "customer";
+        return "customers"; // This should match the template filename without the .html extension
     }
 
     @PostMapping
-    public String addCustomer(@ModelAttribute Customer customer) {
+    public String addCustomer(@ModelAttribute("customer") Customer customer) {
         customerService.addCustomer(customer);
-        return "redirect:/customers";
+        return "redirect:/customers";  
     }
 
     @GetMapping("/{id}")
     public String getCustomerById(@PathVariable Integer id, Model model) {
         Customer customer = customerService.getCustomerById(id);
         model.addAttribute("customer", customer);
-        return "customer";
+        return "customers";
     }
 
     @PostMapping("/{id}")

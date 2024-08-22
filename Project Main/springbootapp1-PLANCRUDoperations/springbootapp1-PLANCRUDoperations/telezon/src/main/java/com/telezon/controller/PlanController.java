@@ -15,7 +15,7 @@ public class PlanController {
 
     @Autowired
     private PlanService planService;
-
+    
     @GetMapping
     public String listPlans(Model model) {
         List<Plan> plans = planService.getPlans();
@@ -25,14 +25,14 @@ public class PlanController {
     }
 
     @PostMapping
-    public String addPlan(@ModelAttribute Plan plan) {
+    public String addPlan(@ModelAttribute("plan") Plan plan) {
         planService.addPlan(plan);
         return "redirect:/plans";
     }
 
     @GetMapping("/{id}")
     public String getPlanById(@PathVariable Integer id, Model model) {
-        Plan plan = planService.getPlans().stream().filter(p -> p.getPid().equals(id)).findFirst().orElse(null);
+        Plan plan = planService.getPlanById(id);
         model.addAttribute("plan", plan);
         return "plans";
     }

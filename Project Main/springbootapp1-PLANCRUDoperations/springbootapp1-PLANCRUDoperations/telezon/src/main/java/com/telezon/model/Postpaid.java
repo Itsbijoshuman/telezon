@@ -12,67 +12,67 @@ import jakarta.persistence.Table;
 public class Postpaid {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer plan_id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer planId;
 
     @Column(name="plan_name")
-    String plan_name;
+    private String planName;
 
     @Column(name="plan_price")
-    Double plan_price;
+    private Double planPrice;
 
     @Column(name="plan_bill_cycle")
-    Integer plan_bill_cycle;
+    private Integer planBillCycle;
 
     @Column(name="plan_data_cap")
-    Double plan_data_cap;
+    private Double planDataCap;
 
-    @Override
-    public String toString() {
-        return "postpaid [plan_id=" + plan_id +
-               ", plan_name=" + plan_name +
-               ", plan_price=" + plan_price +
-               ", plan_bill_cycle=" + plan_bill_cycle +
-               ", plan_data=" + plan_data_cap + "]";
-    }
+    public Postpaid() {}
 
+    // Getters and Setters
     public Integer getPlanId() {
-        return plan_id;
+        return planId;
     }
 
-    public void setPlanId(Integer plan_id) {
-        this.plan_id = plan_id;
-    }
-
-    public Double getPlanPrice() {
-        return plan_price;
-    }
-
-    public void setPlanPrice(Double plan_price) {
-        this.plan_price = plan_price;
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public String getPlanName() {
-        return plan_name;
+        return planName;
     }
 
-    public void setPlanName(String plan_name) {
-        this.plan_name = plan_name;
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
+
+    public Double getPlanPrice() {
+        return planPrice;
+    }
+
+    public void setPlanPrice(Double planPrice) {
+        this.planPrice = planPrice;
     }
 
     public Integer getPlanBillCycle() {
-        return plan_bill_cycle;
+        return planBillCycle;
     }
 
-    public void setPlanBillCycle(Integer plan_duration) {
-        this.plan_bill_cycle = plan_duration;
+    public void setPlanBillCycle(Integer planBillCycle) {
+        this.planBillCycle = planBillCycle;
     }
 
     public Double getPlanDataCap() {
-        return plan_data_cap;
+        return planDataCap;
     }
 
-    public void setPlanDataCap(Double plan_data_limit) {
-        this.plan_data_cap = plan_data_limit;
+    public void setPlanDataCap(Double planDataCap) {
+        this.planDataCap = planDataCap;
+    }
+
+    @Override
+    public String toString() {
+        return "Postpaid [planId=" + planId + ", planName=" + planName + ", planPrice=" + planPrice + 
+                ", planBillCycle=" + planBillCycle + ", planDataCap=" + planDataCap + "]";
     }
 }

@@ -9,7 +9,9 @@
 <body>
     <h1>Plan Management</h1>
     <h2>Add Plan</h2>
-    <form action="#" th:action="@{/api/plans}" th:object="${plan}" method="post">
+    <form action="#" th:action="@{/plans}" th:object="${plan}" method="post">
+        <label for="pid">ID:</label>
+        <input type="text" id="pid" th:field="*{pid}" />
         <label for="pname">Name:</label>
         <input type="text" id="pname" th:field="*{pname}" />
         <label for="duration">Duration:</label>
