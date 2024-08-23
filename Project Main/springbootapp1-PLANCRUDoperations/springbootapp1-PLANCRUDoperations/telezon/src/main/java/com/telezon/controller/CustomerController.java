@@ -1,11 +1,16 @@
 package com.telezon.controller;
 
+import com.telezon.model.Customer;
+import com.telezon.model.Postpaid;
+import com.telezon.model.Prepaid;
+import com.telezon.service.CustomerService;
+import com.telezon.service.PostpaidService;
+import com.telezon.service.PrepaidService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.telezon.model.Customer;
-import com.telezon.service.CustomerService;
 
 import java.util.List;
 
@@ -16,18 +21,47 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private PostpaidService postpaidService;
+
+    @Autowired
+    private PrepaidService prepaidService;
+
     @GetMapping
-    public String listCustomers(Model model) {
-        List<Customer> customers = customerService.getCustomers();
+    public String listCustomers(@RequestParam(value = "filter", required = false, defaultValue = "all") String filter, Model model) {
+        List<Customer> customers;
+
+        switch (filter) {
+            case "prepaid":
+                customers = customerService.getPrepaidCustomers();
+                break;
+            case "postpaid":
+                customers = customerService.getPostpaidCustomers();
+                break;
+            default:
+                customers = customerService.getCustomers();
+        }
+
+        List<Postpaid> postpaidPlans = postpaidService.getPostpaidPlans();
+        List<Prepaid> prepaidPlans = prepaidService.getPrepaidPlans();
+
         model.addAttribute("customers", customers);
         model.addAttribute("customer", new Customer());
-        return "customers"; // This should match the template filename without the .html extension
+        model.addAttribute("postpaidPlans", postpaidPlans);
+        model.addAttribute("prepaidPlans", prepaidPlans);
+        return "customers";
     }
 
     @PostMapping
     public String addCustomer(@ModelAttribute("customer") Customer customer) {
+        if (customer.getPrepaidPlan() != null) {
+            customer.setPostpaidPlan(null);
+        } else if (customer.getPostpaidPlan() != null) {
+            customer.setPrepaidPlan(null);
+        }
+
         customerService.addCustomer(customer);
-        return "redirect:/customers";  
+        return "redirect:/customers";
     }
 
     @GetMapping("/{id}")

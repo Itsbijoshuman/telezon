@@ -5,6 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.telezon.model.Customer;
 
+import java.util.List;
+
 @Repository
 public interface CustomerDao extends JpaRepository<Customer, Integer> {
+    List<Customer> findByPrepaidPlanIsNotNull();
+    List<Customer> findByPostpaidPlanIsNotNull();
 }
