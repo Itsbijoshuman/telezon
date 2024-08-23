@@ -13,10 +13,10 @@ public class Call {
 
     @Id
     private Integer cid;
-    private String fromName;  // Updated field name
+    private String fromName;  
     private Double totalDuration;
     private Double usedDuration;
-    private String toName;  // New field
+    private String toName;  
 
     // Constructors
     public Call() {}
@@ -71,6 +71,6 @@ public class Call {
     }
 
     public Double getRemainingDuration() {
-        return totalDuration - usedDuration; // Calculated in Java
+        return totalDuration - usedDuration; 
     }
 }

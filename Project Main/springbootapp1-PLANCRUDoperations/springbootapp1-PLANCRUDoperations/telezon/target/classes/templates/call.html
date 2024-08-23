@@ -4,6 +4,38 @@
     <title>Call Management</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/styles.css" />
+    
+    <script>
+        function disableSelectedOptions() {
+            const fromDropdown = document.getElementById('fromName');
+            const toDropdown = document.getElementById('toName');
+            const fromValue = fromDropdown.value;
+            const toValue = toDropdown.value;
+
+            for (let i = 0; i < fromDropdown.options.length; i++) {
+                fromDropdown.options[i].disabled = false;
+                toDropdown.options[i].disabled = false;
+            }
+
+            if (fromValue) {
+                const toOption = toDropdown.querySelector(`option[value="${fromValue}"]`);
+                if (toOption) {
+                    toOption.disabled = true;
+                }
+            }
+
+            if (toValue) {
+                const fromOption = fromDropdown.querySelector(`option[value="${toValue}"]`);
+                if (fromOption) {
+                    fromOption.disabled = true;
+                }
+            }
+        }
+
+        window.onload = function () {
+            disableSelectedOptions(); // Ensure options are disabled on page load
+        };
+    </script>
 </head>
 <body>
     <nav>
@@ -12,25 +44,25 @@
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/plans">Plans</a></li>
-            <li><a href="/calls">Calls</a></li> <!-- Navigation link for Calls -->
+            <li><a href="/calls">Calls</a></li> 
         </ul>
     </nav>
 
     <h1>Call Management</h1>
 
-    <h2>Add Call</h2>
+     <h2>Add Call</h2>
     <form action="#" th:action="@{/calls}" th:object="${call}" method="post">
         <label for="cid">ID:</label>
         <input type="text" id="cid" th:field="*{cid}" />
 
         <label for="fromName">From Name:</label>
-        <select id="fromName" th:field="*{fromName}">
+        <select id="fromName" th:field="*{fromName}" onchange="disableSelectedOptions()">
             <option value="" disabled selected>Select a customer</option>
             <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
         </select>
 
         <label for="toName">To Name:</label>
-        <select id="toName" th:field="*{toName}">
+        <select id="toName" th:field="*{toName}" onchange="disableSelectedOptions()">
             <option value="" disabled selected>Select a customer</option>
             <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
         </select>

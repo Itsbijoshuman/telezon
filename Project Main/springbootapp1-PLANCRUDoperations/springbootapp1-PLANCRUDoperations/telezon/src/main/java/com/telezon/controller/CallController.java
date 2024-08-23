@@ -36,9 +36,9 @@ public class CallController {
     	List<Customer> customers = customerDao.findAll();
         List<Call> calls = callService.getAllCalls();
         model.addAttribute("calls", calls);
-        model.addAttribute("call", new Call());// Prepare an empty Call object for form binding
+        model.addAttribute("call", new Call());
         model.addAttribute("customers",customers);
-        return "call"; // Refers to call.html
+        return "call"; 
     }
 
     @PostMapping

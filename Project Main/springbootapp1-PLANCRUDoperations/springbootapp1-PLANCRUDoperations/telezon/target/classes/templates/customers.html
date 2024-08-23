@@ -46,6 +46,8 @@
 			<li><a href="/prepaid">Prepaid Plans</a></li>
 			<li><a href="/customers">Customers</a></li>
 			<li><a href="/plans">Plans</a></li>
+			<li><a href="/calls">Calls</a></li>
+
 		</ul>
 	</nav>
 
@@ -100,12 +102,12 @@
 			</form>
 
 
-            <h2>Filter Customers</h2>
-            <div class="filter-buttons">
-                <button onclick="window.location.href='/customers?filter=all'">All Customers</button>
-                <button onclick="window.location.href='/customers?filter=prepaid'">Prepaid Customers</button>
-                <button onclick="window.location.href='/customers?filter=postpaid'">Postpaid Customers</button>
-            </div>
+			<h2>Filter Customers</h2>
+			<div class="filter-buttons">
+				<button onclick="window.location.href='/customers?filter=all'">All Customers</button>
+				<button onclick="window.location.href='/customers?filter=prepaid'">Prepaid Customers</button>
+				<button onclick="window.location.href='/customers?filter=postpaid'">Postpaid Customers</button>
+			</div>
 			<h2>All Customers</h2>
 			<table>
 				<thead>
@@ -115,7 +117,7 @@
 						<th>Email</th>
 						<th>Phone Number</th>
 						<th>Chosen Plan</th>
-						
+
 					</tr>
 				</thead>
 				<tbody>
@@ -136,7 +138,7 @@
 		</div>
 
 		<div class="sidebar">
-			<h2>All Plans</h2>	
+			<h2>All Plans</h2>
 			<h3>Prepaid Plans</h3>
 			<ul>
 				<li th:each="plan : ${prepaidPlans}" th:text="${plan.planId} + ' - ' + ${plan.planName}"></li>
