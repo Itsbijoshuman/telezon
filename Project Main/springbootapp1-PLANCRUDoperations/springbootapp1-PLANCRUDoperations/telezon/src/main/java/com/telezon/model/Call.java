@@ -66,7 +66,7 @@ public class Call {
         return toName;
     }
 
-    public void setToColumn(String toName) {
+    public void setToName(String toName) {
         this.toName = toName;
     }
 
