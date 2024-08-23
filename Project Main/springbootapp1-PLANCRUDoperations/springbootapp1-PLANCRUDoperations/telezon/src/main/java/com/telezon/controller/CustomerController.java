@@ -28,8 +28,20 @@ public class CustomerController {
     private PrepaidService prepaidService;
 
     @GetMapping
-    public String listCustomers(Model model) {
-        List<Customer> customers = customerService.getCustomers();
+    public String listCustomers(@RequestParam(value = "filter", required = false, defaultValue = "all") String filter, Model model) {
+        List<Customer> customers;
+
+        switch (filter) {
+            case "prepaid":
+                customers = customerService.getPrepaidCustomers();
+                break;
+            case "postpaid":
+                customers = customerService.getPostpaidCustomers();
+                break;
+            default:
+                customers = customerService.getCustomers();
+        }
+
         List<Postpaid> postpaidPlans = postpaidService.getPostpaidPlans();
         List<Prepaid> prepaidPlans = prepaidService.getPrepaidPlans();
 
@@ -37,11 +49,17 @@ public class CustomerController {
         model.addAttribute("customer", new Customer());
         model.addAttribute("postpaidPlans", postpaidPlans);
         model.addAttribute("prepaidPlans", prepaidPlans);
-        return "customers"; // This should match the template filename without the .html extension
+        return "customers";
     }
 
     @PostMapping
     public String addCustomer(@ModelAttribute("customer") Customer customer) {
+        if (customer.getPrepaidPlan() != null) {
+            customer.setPostpaidPlan(null);
+        } else if (customer.getPostpaidPlan() != null) {
+            customer.setPrepaidPlan(null);
+        }
+
         customerService.addCustomer(customer);
         return "redirect:/customers";
     }
