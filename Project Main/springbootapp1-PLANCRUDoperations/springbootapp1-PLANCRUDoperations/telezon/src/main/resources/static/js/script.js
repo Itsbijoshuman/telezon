@@ -13,3 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function togglePlanFields() {
+    var prepaidField = document.getElementById("prepaidField");
+    var postpaidField = document.getElementById("postpaidField");
+    var selectedPlanType = document.querySelector('input[name="planType"]:checked').value;
+
+    if (selectedPlanType === "prepaid") {
+        prepaidField.style.display = "block";
+        postpaidField.style.display = "none";
+    } else if (selectedPlanType === "postpaid") {
+        prepaidField.style.display = "none";
+        postpaidField.style.display = "block";
+    }
+}

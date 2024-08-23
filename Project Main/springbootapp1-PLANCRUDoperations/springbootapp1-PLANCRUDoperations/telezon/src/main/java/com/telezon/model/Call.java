@@ -7,25 +7,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "calls")
 public class Call {
 
     @Id
     private Integer cid;
-    private String name;
+    private String fromName;  // Updated field name
     private Double totalDuration;
     private Double usedDuration;
+    private String toName;  // New field
 
     // Constructors
     public Call() {}
 
-    public Call(Integer cid, String name, Double totalDuration, Double usedDuration) {
+    public Call(Integer cid, String fromName, Double totalDuration, Double usedDuration, String toName) {
         this.cid = cid;
-        this.name = name;
+        this.fromName = fromName;
         this.totalDuration = totalDuration;
         this.usedDuration = usedDuration;
+        this.toName = toName;
     }
 
     // Getters and Setters
@@ -37,12 +38,12 @@ public class Call {
         this.cid = cid;
     }
 
-    public String getName() {
-        return name;
+    public String getFromName() {
+        return fromName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
     }
 
     public Double getTotalDuration() {
@@ -59,6 +60,14 @@ public class Call {
 
     public void setUsedDuration(Double usedDuration) {
         this.usedDuration = usedDuration;
+    }
+
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
     }
 
     public Double getRemainingDuration() {

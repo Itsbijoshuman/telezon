@@ -23,6 +23,14 @@ public class CustomerService {
         return customerDao.findAll();
     }
 
+    public List<Customer> getPrepaidCustomers() {
+        return customerDao.findByPrepaidPlanIsNotNull();
+    }
+
+    public List<Customer> getPostpaidCustomers() {
+        return customerDao.findByPostpaidPlanIsNotNull();
+    }
+
     public Customer getCustomerById(Integer customerId) {
         return customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
     }

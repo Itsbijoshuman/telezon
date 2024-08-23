@@ -12,26 +12,35 @@
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/plans">Plans</a></li>
-            <li><a href="/calls">Calls</a></li> <!-- Added navigation link for Calls -->
+            <li><a href="/calls">Calls</a></li> <!-- Navigation link for Calls -->
         </ul>
     </nav>
 
     <h1>Call Management</h1>
-    
+
     <h2>Add Call</h2>
     <form action="#" th:action="@{/calls}" th:object="${call}" method="post">
         <label for="cid">ID:</label>
         <input type="text" id="cid" th:field="*{cid}" />
-        
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}" />
-        
+
+        <label for="fromName">From Name:</label>
+        <select id="fromName" th:field="*{fromName}">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
+        </select>
+
+        <label for="toName">To Name:</label>
+        <select id="toName" th:field="*{toName}">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
+        </select>
+
         <label for="totalDuration">Total Duration:</label>
         <input type="text" id="totalDuration" th:field="*{totalDuration}" />
-        
+
         <label for="usedDuration">Used Duration:</label>
         <input type="text" id="usedDuration" th:field="*{usedDuration}" />
-        
+
         <button type="submit">Add Call</button>
     </form>
 
@@ -40,7 +49,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>From Name</th>
+                <th>To Name</th>
                 <th>Total Duration</th>
                 <th>Used Duration</th>
                 <th>Remaining Duration</th>
@@ -49,7 +59,8 @@
         <tbody>
             <tr th:each="call : ${calls}">
                 <td th:text="${call.cid}"></td>
-                <td th:text="${call.name}"></td>
+                <td th:text="${call.fromName}"></td>
+                <td th:text="${call.toName}"></td>
                 <td th:text="${call.totalDuration}"></td>
                 <td th:text="${call.usedDuration}"></td>
                 <td th:text="${call.remainingDuration}"></td>
