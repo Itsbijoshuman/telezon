@@ -115,6 +115,7 @@
 						<th>Email</th>
 						<th>Phone Number</th>
 						<th>Chosen Plan</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -135,7 +136,7 @@
 		</div>
 
 		<div class="sidebar">
-			<h2>All Plans</h2>
+			<h2>All Plans</h2>	
 			<h3>Prepaid Plans</h3>
 			<ul>
 				<li th:each="plan : ${prepaidPlans}" th:text="${plan.planId} + ' - ' + ${plan.planName}"></li>
