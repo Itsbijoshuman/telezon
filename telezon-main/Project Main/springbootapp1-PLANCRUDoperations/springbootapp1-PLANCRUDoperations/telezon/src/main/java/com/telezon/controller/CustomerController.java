@@ -42,9 +42,16 @@ public class CustomerController {
 
     @PostMapping
     public String addCustomer(@ModelAttribute("customer") Customer customer) {
+        if (customer.getPrepaidPlan() != null) {
+            customer.setPostpaidPlan(null); 
+        } else if (customer.getPostpaidPlan() != null) {
+            customer.setPrepaidPlan(null);  
+        }
+        
         customerService.addCustomer(customer);
         return "redirect:/customers";
     }
+        
 
     @GetMapping("/{id}")
     public String getCustomerById(@PathVariable Integer id, Model model) {

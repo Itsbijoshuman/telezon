@@ -20,6 +20,18 @@
             }
         }
 
+        function clearUnselectedPlanFields() {
+            const prepaidRadio = document.getElementById('prepaidRadio');
+            const prepaidPlan = document.getElementById('prepaidPlan');
+            const postpaidPlan = document.getElementById('postpaidPlan');
+
+            if (prepaidRadio.checked) {
+                postpaidPlan.value = ''; 
+            } else {
+                prepaidPlan.value = '';  
+            }
+        }
+
         window.onload = function () {
             togglePlanField();
         };
@@ -42,7 +54,7 @@
             <h1>Customer Management</h1>
 
             <h2>Add Customer</h2>
-            <form action="#" th:action="@{/customers}" th:object="${customer}" method="post">
+            <form action="#" th:action="@{/customers}" th:object="${customer}" method="post" onsubmit="clearUnselectedPlanFields()">
                 <label for="id">ID:</label>
                 <input type="text" id="id" th:field="*{id}" />
                 <label for="name">Name:</label>
@@ -81,7 +93,6 @@
 
                 <button type="submit">Add Customer</button>
             </form>
-
             <h2>All Customers</h2>
             <table>
                 <thead>
