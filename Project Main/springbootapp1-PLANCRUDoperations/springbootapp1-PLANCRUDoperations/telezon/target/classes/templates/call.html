@@ -17,24 +17,30 @@
     </nav>
 
     <h1>Call Management</h1>
-    
+
     <h2>Add Call</h2>
     <form action="#" th:action="@{/calls}" th:object="${call}" method="post">
         <label for="cid">ID:</label>
         <input type="text" id="cid" th:field="*{cid}" />
-        
+
         <label for="fromName">From Name:</label>
-        <input type="text" id="fromName" th:field="*{fromName}" />
-        
+        <select id="fromName" th:field="*{fromName}">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
+        </select>
+
         <label for="toName">To Name:</label>
-        <input type="text" id="toName" th:field="*{toName}" />
-        
+        <select id="toName" th:field="*{toName}">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
+        </select>
+
         <label for="totalDuration">Total Duration:</label>
         <input type="text" id="totalDuration" th:field="*{totalDuration}" />
-        
+
         <label for="usedDuration">Used Duration:</label>
         <input type="text" id="usedDuration" th:field="*{usedDuration}" />
-        
+
         <button type="submit">Add Call</button>
     </form>
 

@@ -1,11 +1,19 @@
 package com.telezon.controller;
 
 import com.telezon.model.Call;
+import com.telezon.model.Customer;
 import com.telezon.service.CallService;
+import com.telezon.dao.CallDao;
+import com.telezon.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +22,22 @@ import java.util.Optional;
 @RequestMapping("/calls")
 public class CallController {
 
+	@Autowired
+	private CallDao callDao;
+	
+	@Autowired
+	private CustomerDao customerDao;
+	
     @Autowired
     private CallService callService;
 
     @GetMapping
     public String listCalls(Model model) {
+    	List<Customer> customers = customerDao.findAll();
         List<Call> calls = callService.getAllCalls();
         model.addAttribute("calls", calls);
-        model.addAttribute("call", new Call()); // Prepare an empty Call object for form binding
+        model.addAttribute("call", new Call());// Prepare an empty Call object for form binding
+        model.addAttribute("customers",customers);
         return "call"; // Refers to call.html
     }
 
