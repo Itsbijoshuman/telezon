@@ -12,10 +12,10 @@
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
             <li><a href="/plans">Plans</a></li>
-            <li><a href="/data">Data</a></li> <!-- Navigation link for Data -->
+            <li><a href="/calls">Calls</a></li> 
+            <li><a href="/data">Data</a></li>
         </ul>
     </nav>
-
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
@@ -52,7 +52,7 @@
         <tbody>
             <tr th:each="data : ${dataList}">
                 <td th:text="${data.id}"></td>
-                <td th:text="${data.customer.name}"></td> <!-- Display customer name -->
+                <td th:text="${data.customer.name}"></td>
                 <td th:text="${data.totalData}"></td>
                 <td th:text="${data.usedData}"></td>
                 <td th:text="${data.remainingData}"></td>

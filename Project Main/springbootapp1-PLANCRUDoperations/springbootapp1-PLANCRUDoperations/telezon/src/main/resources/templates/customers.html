@@ -39,18 +39,15 @@
 </head>
 
 <body>
-
 	<nav>
 		<ul>
 			<li><a href="/postpaid">Postpaid Plans</a></li>
 			<li><a href="/prepaid">Prepaid Plans</a></li>
 			<li><a href="/customers">Customers</a></li>
-			<li><a href="/plans">Plans</a></li>
 			<li><a href="/calls">Calls</a></li>
-
+			<li><a href="/data">Data</a></li> 
 		</ul>
 	</nav>
-
 	<div class="main-content">
 		<div class="form-container">
 			<h1>Customer Management</h1>
@@ -90,7 +87,7 @@
 				</div>
 
 				<div id="postpaidPlanDropdown" style="display: none;">
-					<label for="postpaidPlan">Select Postpaid Plan:</label>
+					<label for="postpaidPlan"	>Select Postpaid Plan:</label>
 					<select id="postpaidPlan" th:field="*{postpaidPlan}">
 						<option value="" disabled selected>Select a plan</option>
 						<option th:each="plan : ${postpaidPlans}" th:value="${plan.planId}" th:text="${plan.planName}">
