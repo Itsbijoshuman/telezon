@@ -32,9 +32,21 @@
 			}
 		}
 
-		window.onload = function () {
-			togglePlanField();
-		};
+
+        window.onload = function () {
+            togglePlanField();
+
+            document.getElementById('prepaidPlan').addEventListener('change', function () {
+                const selectedPlanId = this.value;
+                fetch('/prepaid/' + selectedPlanId)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('remainingBalance').value = data.duration;
+                    })
+                    .catch(error => console.error('Error fetching plan duration:', error));
+            });
+        };
+		
 	</script>
 </head>
 
@@ -114,6 +126,7 @@
 						<th>Email</th>
 						<th>Phone Number</th>
 						<th>Chosen Plan</th>
+						<th>Remaining TT</th>
 
 					</tr>
 				</thead>
@@ -129,6 +142,7 @@
 							<span th:if="${customer.postpaidPlan != null}"
 								th:text="'Postpaid Plan: ' + ${customer.postpaidPlan}"></span>
 						</td>
+						<td th:text = "${customer.remainingBalance}"></td>
 					</tr>
 				</tbody>
 			</table>

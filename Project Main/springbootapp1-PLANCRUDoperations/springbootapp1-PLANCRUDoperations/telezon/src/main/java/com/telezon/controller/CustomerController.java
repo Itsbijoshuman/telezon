@@ -55,9 +55,12 @@ public class CustomerController {
     @PostMapping
     public String addCustomer(@ModelAttribute("customer") Customer customer) {
         if (customer.getPrepaidPlan() != null) {
+        	Prepaid selectedPrepaidPlan = prepaidService.getPrepaidPlanById(customer.getPrepaidPlan());
+            customer.setRemainingBalance((double) selectedPrepaidPlan.getDuration());
             customer.setPostpaidPlan(null);
         } else if (customer.getPostpaidPlan() != null) {
             customer.setPrepaidPlan(null);
+            customer.setRemainingBalance(null);
         }
 
         customerService.addCustomer(customer);

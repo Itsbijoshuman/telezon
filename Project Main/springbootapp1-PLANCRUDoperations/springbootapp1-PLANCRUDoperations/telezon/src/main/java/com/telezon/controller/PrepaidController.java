@@ -29,4 +29,9 @@ public class PrepaidController {
         prepaidService.addPrepaidPlan(prepaid);
         return "redirect:/prepaid";
     }
+    
+    @GetMapping("/{id}")
+    public Prepaid getPrepaidPlan(@PathVariable Integer id) {
+        return prepaidService.getPrepaidPlanById(id);
+    }
 }
