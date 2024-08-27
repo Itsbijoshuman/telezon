@@ -25,61 +25,76 @@ public class CallController {
 
 	@Autowired
 	private CallDao callDao;
-	
+
 	@Autowired
 	private CustomerDao customerDao;
-	
-    @Autowired
-    private CallService callService;
 
-    @GetMapping
-    public String listCalls(Model model) {
-    	List<Customer> customers = customerDao.findAll();
-    	
+	@Autowired
+	private CallService callService;
 
-        List<Call> calls = callService.getAllCalls();
-        model.addAttribute("calls", calls);
-        model.addAttribute("call", new Call());
-        model.addAttribute("customers",customers);
-        return "call"; 
-    }
+	@Autowired
+	private CustomerService customerService;
 
-    @PostMapping
-    public String addCall(@ModelAttribute Call call) {
-        callService.saveCall(call);
-        return "redirect:/calls"; // Redirects to /calls URL
-    }
+	@GetMapping
+	public String listCalls(Model model) {
+		List<Customer> customers = customerDao.findAll();
 
-    @GetMapping("/{id}")
-    public String editCall(@PathVariable Integer id, Model model) {
-        Optional<Call> call = callService.getCallById(id);
-        if (call.isPresent()) {
-            model.addAttribute("call", call.get());
-            return "call"; // Refers to call.html for editing
-        } else {
-            return "redirect:/calls"; // Redirect if the call is not found
-        }
-    }
+		List<Call> calls = callService.getAllCalls();
+		model.addAttribute("calls", calls);
+		model.addAttribute("call", new Call());
+		model.addAttribute("customers", customers);
+		return "call";
+	}
 
-    @PostMapping("/{id}")
-    public String updateCall(@PathVariable Integer id, @ModelAttribute Call call) {
-        if (callService.getCallById(id).isPresent()) {
-            call.setCid(id);
-            callService.updateCall(call);
-        }
-        return "redirect:/calls"; // Redirect to /calls URL
-    }
+	@PostMapping
+	public String addCall(@ModelAttribute Call call) {
+		callService.saveCall(call);
 
-    @DeleteMapping("/{id}")
-    public String deleteCall(@PathVariable Integer id) {
-        callService.deleteCall(id);
-        return "redirect:/calls"; // Redirect to /calls URL
-    }
-    
-    @GetMapping("/calls")
-    public String showCallsPage(Model model) {
-        List<Customer> customers = customerDao.findAll();
-        model.addAttribute("customers", customers);
-        return "calls";
-    }
+		Optional<Customer> customerOpt = Optional.ofNullable(customerService.getCustomerById(call.getCid()));
+		if (customerOpt.isPresent()) {
+			Customer customer = customerOpt.get();
+
+			// Update the customer's remaining balance based on the call's used duration
+			double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
+			customer.setRemainingBalance(newBalance);
+
+			// Save the updated customer
+			customerService.updateCustomer(102,customer);
+		}
+
+		return "redirect:/calls";
+	}
+
+	@GetMapping("/{id}")
+	public String editCall(@PathVariable Integer id, Model model) {
+		Optional<Call> call = callService.getCallById(id);
+		if (call.isPresent()) {
+			model.addAttribute("call", call.get());
+			return "call"; // Refers to call.html for editing
+		} else {
+			return "redirect:/calls"; // Redirect if the call is not found
+		}
+	}
+
+	@PostMapping("/{id}")
+	public String updateCall(@PathVariable Integer id, @ModelAttribute Call call) {
+		if (callService.getCallById(id).isPresent()) {
+			call.setCid(id);
+			callService.updateCall(call);
+		}
+		return "redirect:/calls"; // Redirect to /calls URL
+	}
+
+	@DeleteMapping("/{id}")
+	public String deleteCall(@PathVariable Integer id) {
+		callService.deleteCall(id);
+		return "redirect:/calls"; // Redirect to /calls URL
+	}
+
+	@GetMapping("/calls")
+	public String showCallsPage(Model model) {
+		List<Customer> customers = customerDao.findAll();
+		model.addAttribute("customers", customers);
+		return "calls";
+	}
 }

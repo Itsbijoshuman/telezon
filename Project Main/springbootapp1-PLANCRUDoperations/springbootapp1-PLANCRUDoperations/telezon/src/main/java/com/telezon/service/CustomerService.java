@@ -7,6 +7,7 @@ import com.telezon.model.Customer;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,6 +44,9 @@ public class CustomerService {
         return customerDao.save(existingCustomer);
     } 	
 
+    public Optional<Customer> getCustomerById(int cid) {
+        return customerDao.findById(cid);
+    }
     public void deleteCustomer(Integer customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
         customerDao.delete(customer);
