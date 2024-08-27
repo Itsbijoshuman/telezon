@@ -3,6 +3,7 @@ package com.telezon.controller;
 import com.telezon.model.Call;
 import com.telezon.model.Customer;
 import com.telezon.service.CallService;
+import com.telezon.service.CustomerService;
 import com.telezon.dao.CallDao;
 import com.telezon.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class CallController {
     @GetMapping
     public String listCalls(Model model) {
     	List<Customer> customers = customerDao.findAll();
+    	
+
         List<Call> calls = callService.getAllCalls();
         model.addAttribute("calls", calls);
         model.addAttribute("call", new Call());
@@ -71,5 +74,12 @@ public class CallController {
     public String deleteCall(@PathVariable Integer id) {
         callService.deleteCall(id);
         return "redirect:/calls"; // Redirect to /calls URL
+    }
+    
+    @GetMapping("/calls")
+    public String showCallsPage(Model model) {
+        List<Customer> customers = customerDao.findAll();
+        model.addAttribute("customers", customers);
+        return "calls";
     }
 }

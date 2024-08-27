@@ -41,7 +41,7 @@ public class CustomerService {
         existingCustomer.setEmail(customer.getEmail());
         existingCustomer.setPhoneNumber(customer.getPhoneNumber());
         return customerDao.save(existingCustomer);
-    }
+    } 	
 
     public void deleteCustomer(Integer customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));

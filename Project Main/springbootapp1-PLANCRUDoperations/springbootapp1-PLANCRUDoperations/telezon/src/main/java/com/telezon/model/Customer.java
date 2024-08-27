@@ -78,7 +78,7 @@ public class Customer {
         this.postpaidPlan = postpaidPlan;
     }
 
-    public Double getRemainingBalance() {   // Getter for the new column
+    public Double getRemainingBalance() {   
         return remainingBalance;
     }
 
