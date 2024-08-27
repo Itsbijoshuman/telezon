@@ -10,22 +10,30 @@
 		function disableSelectedOptions() {
 			const fromDropdown = document.getElementById('fromName');
 			const toDropdown = document.getElementById('toName');
+
+			if (!fromDropdown || !toDropdown) {
+				console.error('Dropdown elements not found');
+				return;
+			}
+
 			const fromValue = fromDropdown.value;
 			const toValue = toDropdown.value;
 
+			// Enable all options initially
 			for (let i = 0; i < fromDropdown.options.length; i++) {
 				fromDropdown.options[i].disabled = false;
 				toDropdown.options[i].disabled = false;
 			}
 
+			// Disable options in 'to' dropdown that match 'from' dropdown's value
 			if (fromValue) {
 				const toOption = toDropdown.querySelector(`option[value="${fromValue}"]`);
 				if (toOption) {
 					toOption.disabled = true;
 				}
-
 			}
 
+			// Disable options in 'from' dropdown that match 'to' dropdown's value
 			if (toValue) {
 				const fromOption = fromDropdown.querySelector(`option[value="${toValue}"]`);
 				if (fromOption) {
@@ -34,8 +42,33 @@
 			}
 		}
 
+		function updateTotalDuration() {
+			const fromDropdown = document.getElementById('fromName');
+			const selectedOption = fromDropdown ? fromDropdown.options[fromDropdown.selectedIndex] : null;
+
+			if (!selectedOption) {
+				console.error('No selected option found');
+				return;
+			}
+
+			// Get remaining balance from data attributes
+			const remainingBalance = selectedOption.getAttribute('data-remaining-balance') || '';
+
+			// Log the remaining balance to the console
+			console.log('Remaining Balance:', remainingBalance);
+
+			// Update total duration input field
+			const totalDurationInput = document.getElementById('totalDuration');
+			if (totalDurationInput) {
+				totalDurationInput.value = remainingBalance;
+				totalDurationInput.disabled = !remainingBalance; // Disable if no balance is available
+			}
+		}
+		
 		window.onload = function () {
 			disableSelectedOptions();
+			updateTotalDuration();
+
 		};
 	</script>
 </head>
@@ -58,28 +91,25 @@
 		<label for="cid">ID:</label>
 		<input type="text" id="cid" th:field="*{cid}" />
 
-		<label for="fromName">From Name:</label>
-		<select id="fromName" th:field="*{fromName}" onchange="disableSelectedOptions()">
-			<option value="" disabled selected>Select a customer</option>
-			<option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
-		</select>
+        <label for="fromName">From Name:</label>
+        <select id="fromName" th:field="*{fromName}" onchange="disableSelectedOptions(); updateTotalDuration()">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}"
+                    th:value="${customer.name}"
+                    th:data-remaining-balance="${customer.remainingBalance}"
+                    th:text="${customer.name}"></option>
+        </select>
+        
+        <label for="toName">To Name:</label>
+        <select id="toName" th:field="*{toName}" onchange="disableSelectedOptions()">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customers}"
+                    th:value="${customer.name}"
+                    th:text="${customer.name}"></option>
+        </select>
 
-		<label for="toName">To Name:</label>
-		<select id="toName" th:field="*{toName}" onchange="disableSelectedOptions()">
-			<option value="" disabled selected>Select a customer</option>
-			<option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
-		</select>
-
-		<div th:each="customer : ${customers}" th:if="${customer.prepaidPlan != null}">
-			<label for="totalDuration">Total Duration:</label>
-			<input type="text" id="totalDuration" th:value="${customer.remainingBalance}"
-				th:disabled="${customer.prepaidPlan != null}" />
-		</div>
-
-		<div th:each="customer : ${customers}" th:if="${customer.postpaidPlan != null}">
-			<label for="totalDuration">Total Duration:</label>
-			<input type="text" id="totalDuration" th:value="0" th:disabled="${customer.postpaidPlan != null}" />
-		</div>
+       <label for="totalDuration">Total Duration:</label>
+        <input type="text" id="totalDuration" th:field="*{totalDuration}" readonly />
 
 		<label for="usedDuration">Used Duration:</label>
 		<input type="text" id="usedDuration" th:field="*{usedDuration}" />
