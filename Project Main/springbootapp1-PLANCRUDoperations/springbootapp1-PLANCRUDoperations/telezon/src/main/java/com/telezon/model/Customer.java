@@ -30,6 +30,8 @@ public class Customer {
     @Column(name="remaining_balance")
     private Double remainingBalance;  
 
+    @Column(name="remaining_data")
+    private Double remainingData;  
     public Integer getId() {
         return id;
     }
@@ -85,6 +87,14 @@ public class Customer {
     public void setRemainingBalance(Double remainingBalance) {  // Setter for the new column
         this.remainingBalance = remainingBalance;
     }
+    
+    public Double getRemainingData() {   
+        return remainingData;
+    }
+
+    public void setRemainingData(Double remainingData) {  // Setter for the new column
+        this.remainingData = remainingData;
+    }
 
     @Override
     public String toString() {
@@ -94,6 +104,7 @@ public class Customer {
                ", phoneNumber=" + phoneNumber +
                ", prepaidPlan=" + prepaidPlan +
                ", postpaidPlan=" + postpaidPlan +
-               ", remainingBalance=" + remainingBalance + "]";  // Included in toString()
+               ", remainingBalance=" + remainingBalance +
+        ", remainingData=" + remainingData + "]";  // Included in toString()
     }
 }

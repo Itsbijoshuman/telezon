@@ -58,9 +58,13 @@ public class CustomerController {
         	Prepaid selectedPrepaidPlan = prepaidService.getPrepaidPlanById(customer.getPrepaidPlan());
             customer.setRemainingBalance((double) selectedPrepaidPlan.getDuration());
             customer.setPostpaidPlan(null);
+            customer.setRemainingData((double) selectedPrepaidPlan.getPlanLimit());
+            customer.setPostpaidPlan(null);
         } else if (customer.getPostpaidPlan() != null) {
             customer.setPrepaidPlan(null);
             customer.setRemainingBalance(null);
+            customer.setPrepaidPlan(null);
+            customer.setRemainingBalance(null);//dont make this null later - saloni
         }
 
         customerService.addCustomer(customer);

@@ -16,29 +16,29 @@
             }
 
             // Get remaining balance from data attributes
-            const remainingBalance = selectedOption.getAttribute('data-remaining-balance') || '';
+            const remainingData = selectedOption.getAttribute('data-remaining-Data') || '';
 
             // Log the remaining balance to the console
-            console.log('Remaining Balance:', remainingBalance);
+            console.log('Remaining Data:', remainingData);
 
             // Update total data input field
             const totalDataInput = document.getElementById('totalData');
             if (totalDataInput) {
-                totalDataInput.value = remainingBalance;
-                totalDataInput.disabled = !remainingBalance; // Disable if no balance is available
+                totalDataInput.value = remainingData;
+                totalDataInput.disabled = !remainingData; // Disable if no balance is available
             }
 
-            updateCustomerTypeMessage(remainingBalance);
+            updateCustomerTypeMessage(remainingData);
         }
 
-        function updateCustomerTypeMessage(remainingBalance) {
+        function updateCustomerTypeMessage(remainingData) {
             const customerTypeMessage = document.getElementById('customerTypeMessage');
             if (!customerTypeMessage) {
                 console.error('Customer type message element not found');
                 return;
             }
 
-            if (remainingBalance) {
+            if (remainingData) {
                 customerTypeMessage.textContent = "This is a prepaid customer.";
             } else {
                 customerTypeMessage.textContent = "This is a postpaid customer.";
@@ -73,7 +73,7 @@
             <option th:each="customer : ${customerList}" 
                     th:value="${customer.id}" 
                     th:text="${customer.name}" 
-                    th:attr="data-remaining-balance=${customer.remainingBalance}">
+                    th:attr="data-remaining-Data=${customer.remainingData}">
             </option>
         </select>
         
