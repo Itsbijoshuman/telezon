@@ -15,17 +15,12 @@
                 return;
             }
 
-            // Get remaining balance from data attributes
             const remainingData = selectedOption.getAttribute('data-remaining-Data') || '';
 
-            // Log the remaining balance to the console
-            console.log('Remaining Data:', remainingData);
-
-            // Update total data input field
             const totalDataInput = document.getElementById('totalData');
             if (totalDataInput) {
                 totalDataInput.value = remainingData;
-                totalDataInput.disabled = !remainingData; // Disable if no balance is available
+                totalDataInput.disabled = !remainingData; // Disable if no data is available
             }
 
             updateCustomerTypeMessage(remainingData);
@@ -46,8 +41,13 @@
         }
 
         window.onload = function () {
-            updateTotalData(); // Ensures the message and data are updated on page load
+            updateTotalData(); // Ensure the message and data are updated on page load
         };
+
+        function onSubmitForm() {
+            updateTotalData(); // Ensure totalData is correctly set before submission
+            return true; // Proceed with form submission
+        }
     </script>
 </head>
 <body>
@@ -63,7 +63,7 @@
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
-    <form action="#" th:action="@{/data}" th:object="${data}" method="post">
+    <form action="#" th:action="@{/data}" th:object="${data}" method="post" onsubmit="return onSubmitForm()">
         <label for="id">ID:</label>
         <input type="text" id="id" th:field="*{id}" />
         

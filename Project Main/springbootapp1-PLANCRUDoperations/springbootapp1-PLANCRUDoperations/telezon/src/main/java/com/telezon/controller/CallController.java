@@ -60,6 +60,7 @@ public class CallController {
 
 	        double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
 	        customer.setRemainingBalance(newBalance);
+	        
 
 	        // Update the customer in the database
 	        customerService.updateCustomer(customer.getId(), customer);
