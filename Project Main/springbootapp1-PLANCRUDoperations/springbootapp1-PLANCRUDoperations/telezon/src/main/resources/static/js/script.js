@@ -77,7 +77,3 @@ document.addEventListener('DOMContentLoaded', () => {
         toDropdown.addEventListener('change', disableSelectedOptions);
         disableSelectedOptions();
     }
-
-    // Clear unselected plan fields before submission
-    function clearUnselectedPlanFields() {
-        const prepaidPlan = document.getElementById('
