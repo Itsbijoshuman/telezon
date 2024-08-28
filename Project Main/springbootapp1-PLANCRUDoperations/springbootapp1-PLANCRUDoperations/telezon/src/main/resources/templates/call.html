@@ -63,8 +63,25 @@
 				totalDurationInput.value = remainingBalance;
 				totalDurationInput.disabled = !remainingBalance; // Disable if no balance is available
 			}
+
+			updateCustomerTypeMessage(remainingBalance);
+
 		}
-		
+
+		function updateCustomerTypeMessage(remainingBalance) {
+			const customerTypeMessage = document.getElementById('customerTypeMessage');
+			if (!customerTypeMessage) {
+				console.error('Customer type message element not found');
+				return;
+			}
+
+			if (remainingBalance) {
+				customerTypeMessage.textContent = "This is a prepaid customer.";
+			} else {
+				customerTypeMessage.textContent = "This is a postpaid customer.";
+			}
+		}
+
 		window.onload = function () {
 			disableSelectedOptions();
 			updateTotalDuration();
@@ -91,25 +108,24 @@
 		<label for="cid">ID:</label>
 		<input type="text" id="cid" th:field="*{cid}" />
 
-        <label for="fromName">From Name:</label>
-        <select id="fromName" th:field="*{fromName}" onchange="disableSelectedOptions(); updateTotalDuration()">
-            <option value="" disabled selected>Select a customer</option>
-            <option th:each="customer : ${customers}"
-                    th:value="${customer.name}"
-                    th:data-remaining-balance="${customer.remainingBalance}"
-                    th:text="${customer.name}"></option>
-        </select>
-        
-        <label for="toName">To Name:</label>
-        <select id="toName" th:field="*{toName}" onchange="disableSelectedOptions()">
-            <option value="" disabled selected>Select a customer</option>
-            <option th:each="customer : ${customers}"
-                    th:value="${customer.name}"
-                    th:text="${customer.name}"></option>
-        </select>
+		<label for="fromName">From Name:</label>
+		<select id="fromName" th:field="*{fromName}" onchange="disableSelectedOptions(); updateTotalDuration()">
+			<option value="" disabled selected>Select a customer</option>
+			<option th:each="customer : ${customers}" th:value="${customer.name}"
+				th:data-remaining-balance="${customer.remainingBalance}" th:text="${customer.name}"></option>
+		</select>
 
-       <label for="totalDuration">Total Duration:</label>
-        <input type="text" id="totalDuration" th:field="*{totalDuration}" readonly />
+		<div id="customerTypeMessage" class="alert alert-info mt-2"></div>
+
+
+		<label for="toName">To Name:</label>
+		<select id="toName" th:field="*{toName}" onchange="disableSelectedOptions()">
+			<option value="" disabled selected>Select a customer</option>
+			<option th:each="customer : ${customers}" th:value="${customer.name}" th:text="${customer.name}"></option>
+		</select>
+
+		<label for="totalDuration">Total Duration:</label>
+		<input type="text" id="totalDuration" th:field="*{totalDuration}" readonly />
 
 		<label for="usedDuration">Used Duration:</label>
 		<input type="text" id="usedDuration" th:field="*{usedDuration}" />
