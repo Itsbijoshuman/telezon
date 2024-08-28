@@ -22,7 +22,6 @@ public class Data {
     private Double totalData;
     private Double usedData;
 
-    // Constructors
     public Data() {}
 
     public Data(Integer id, Customer customer, Double totalData, Double usedData) {
@@ -32,7 +31,6 @@ public class Data {
         this.usedData = usedData;
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

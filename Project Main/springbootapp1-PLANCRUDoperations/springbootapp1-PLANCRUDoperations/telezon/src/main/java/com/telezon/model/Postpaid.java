@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 public class Postpaid {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer planId;
 
     @Column(name="plan_name")

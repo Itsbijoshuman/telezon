@@ -4,6 +4,51 @@
     <title>Data Management</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/styles.css" />
+    
+    <script>
+        function updateTotalData() {
+            const fromDropdown = document.getElementById('customer');
+            const selectedOption = fromDropdown ? fromDropdown.options[fromDropdown.selectedIndex] : null;
+
+            if (!selectedOption) {
+                console.error('No selected option found');
+                return;
+            }
+
+            // Get remaining balance from data attributes
+            const remainingBalance = selectedOption.getAttribute('data-remaining-balance') || '';
+
+            // Log the remaining balance to the console
+            console.log('Remaining Balance:', remainingBalance);
+
+            // Update total data input field
+            const totalDataInput = document.getElementById('totalData');
+            if (totalDataInput) {
+                totalDataInput.value = remainingBalance;
+                totalDataInput.disabled = !remainingBalance; // Disable if no balance is available
+            }
+
+            updateCustomerTypeMessage(remainingBalance);
+        }
+
+        function updateCustomerTypeMessage(remainingBalance) {
+            const customerTypeMessage = document.getElementById('customerTypeMessage');
+            if (!customerTypeMessage) {
+                console.error('Customer type message element not found');
+                return;
+            }
+
+            if (remainingBalance) {
+                customerTypeMessage.textContent = "This is a prepaid customer.";
+            } else {
+                customerTypeMessage.textContent = "This is a postpaid customer.";
+            }
+        }
+
+        window.onload = function () {
+            updateTotalData(); // Ensures the message and data are updated on page load
+        };
+    </script>
 </head>
 <body>
     <nav>
@@ -11,11 +56,10 @@
             <li><a href="/postpaid">Postpaid Plans</a></li>
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
-            <li><a href="/plans">Plans</a></li>
-            <li><a href="/data">Data</a></li> <!-- Navigation link for Data -->
+            <li><a href="/calls">Calls</a></li> 
+            <li><a href="/data">Data</a></li>
         </ul>
     </nav>
-
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
@@ -24,10 +68,17 @@
         <input type="text" id="id" th:field="*{id}" />
         
         <label for="customer">Customer:</label>
-        <select id="customer" th:field="*{customer}">
+        <select id="customer" th:field="*{customer}" onchange="updateTotalData()">
             <option value="" disabled selected>Select a customer</option>
-            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            <option th:each="customer : ${customerList}" 
+                    th:value="${customer.id}" 
+                    th:text="${customer.name}" 
+                    th:attr="data-remaining-balance=${customer.remainingBalance}">
+            </option>
         </select>
+        
+        <!-- Customer Type Message -->
+        <div id="customerTypeMessage"></div>
         
         <label for="totalData">Total Data (GB):</label>
         <input type="text" id="totalData" th:field="*{totalData}" />
@@ -52,7 +103,7 @@
         <tbody>
             <tr th:each="data : ${dataList}">
                 <td th:text="${data.id}"></td>
-                <td th:text="${data.customer.name}"></td> <!-- Display customer name -->
+                <td th:text="${data.customer.name}"></td>
                 <td th:text="${data.totalData}"></td>
                 <td th:text="${data.usedData}"></td>
                 <td th:text="${data.remainingData}"></td>

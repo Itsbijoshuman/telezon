@@ -2,8 +2,6 @@ package com.telezon.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,7 +10,6 @@ import jakarta.persistence.Table;
 public class Customer {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name="name")
@@ -25,12 +22,13 @@ public class Customer {
     private String phoneNumber;
 
     @Column(name="prepaid_plan")
-    private Integer prepaidPlan;  // Assuming it's an ID reference
+    private Integer prepaidPlan; 
 
     @Column(name="postpaid_plan")
-    private Integer postpaidPlan; // Assuming it's an ID reference
+    private Integer postpaidPlan; 
 
-    // Getters and Setters
+    @Column(name="remaining_balance")
+    private Double remainingBalance;  
 
     public Integer getId() {
         return id;
@@ -80,6 +78,14 @@ public class Customer {
         this.postpaidPlan = postpaidPlan;
     }
 
+    public Double getRemainingBalance() {   
+        return remainingBalance;
+    }
+
+    public void setRemainingBalance(Double remainingBalance) {  // Setter for the new column
+        this.remainingBalance = remainingBalance;
+    }
+
     @Override
     public String toString() {
         return "Customer [id=" + id +
@@ -87,6 +93,7 @@ public class Customer {
                ", email=" + email +
                ", phoneNumber=" + phoneNumber +
                ", prepaidPlan=" + prepaidPlan +
-               ", postpaidPlan=" + postpaidPlan + "]";
+               ", postpaidPlan=" + postpaidPlan +
+               ", remainingBalance=" + remainingBalance + "]";  // Included in toString()
     }
 }
