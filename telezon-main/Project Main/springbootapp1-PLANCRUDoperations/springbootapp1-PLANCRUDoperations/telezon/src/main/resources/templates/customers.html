@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Customer Management</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script>
+        function togglePlanField() {
+            const prepaidDropdown = document.getElementById('prepaidPlanDropdown');
+            const postpaidDropdown = document.getElementById('postpaidPlanDropdown');
+            const prepaidRadio = document.getElementById('prepaidRadio');
+
+            if (prepaidRadio.checked) {
+                prepaidDropdown.style.display = 'block';
+                postpaidDropdown.style.display = 'none';
+            } else {
+                prepaidDropdown.style.display = 'none';
+                postpaidDropdown.style.display = 'block';
+            }
+        }
+
+        function clearUnselectedPlanFields() {
+            const prepaidRadio = document.getElementById('prepaidRadio');
+            const prepaidPlan = document.getElementById('prepaidPlan');
+            const postpaidPlan = document.getElementById('postpaidPlan');
+
+            if (prepaidRadio.checked) {
+                postpaidPlan.value = '';
+            } else {
+                prepaidPlan.value = '';
+            }
+        }
+
+        window.onload = function () {
+            togglePlanField();
+
+            document.getElementById('prepaidPlan').addEventListener('change', function () {
+                const selectedPlanId = this.value;
+                fetch('/prepaid/' + selectedPlanId)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('remainingBalance').value = data.duration;
+                    })
+                    .catch(error => console.error('Error fetching plan duration:', error));
+            });
+        };
+    </script>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="/postpaid">Postpaid Plans</a></li>
+            <li><a href="/prepaid">Prepaid Plans</a></li>
+            <li><a href="/customers">Customers</a></li>
+            <li><a href="/calls">Calls</a></li>
+            <li><a href="/data">Data</a></li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        <div class="form-and-plans">
+            <div class="form-container">
+                <h1>Customer Management</h1>
+
+                <h2>Add Customer</h2>
+                <form action="#" th:action="@{/customers}" th:object="${customer}" method="post" onsubmit="clearUnselectedPlanFields()">
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" th:field="*{id}" />
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" />
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" th:field="*{email}" />
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" />
+
+                    <div class="plan-selection">
+                        <label>
+                            <input type="radio" id="prepaidRadio" name="planType" value="prepaid" onclick="togglePlanField()" checked />
+                            Prepaid Plan
+                        </label>
+                        <label>
+                            <input type="radio" id="postpaidRadio" name="planType" value="postpaid" onclick="togglePlanField()" />
+                            Postpaid Plan
+                        </label>
+                    </div>
+
+                    <div id="prepaidPlanDropdown">
+                        <label for="prepaidPlan">Select Prepaid Plan:</label>
+                        <select id="prepaidPlan" th:field="*{prepaidPlan}">
+                            <option value="" disabled selected>Select a plan</option>
+                            <option th:each="plan : ${prepaidPlans}" th:value="${plan.planId}" th:text="${plan.planName}"></option>
+                        </select>
+                    </div>
+
+                    <div id="postpaidPlanDropdown" style="display: none;">
+                        <label for="postpaidPlan">Select Postpaid Plan:</label>
+                        <select id="postpaidPlan" th:field="*{postpaidPlan}">
+                            <option value="" disabled selected>Select a plan</option>
+                            <option th:each="plan : ${postpaidPlans}" th:value="${plan.planId}" th:text="${plan.planName}"></option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Add Customer</button>
+                </form>
+            </div>
+
+            <div class="plans-container">
+                <h2>All Plans</h2>
+                <div class="sidebar">
+                    <h3>Prepaid Plans</h3>
+                    <ul>
+                        <li th:each="plan : ${prepaidPlans}" th:text="${plan.planId} + ' - ' + ${plan.planName}"></li>
+                    </ul>
+                    <h3>Postpaid Plans</h3>
+                    <ul>
+                        <li th:each="plan : ${postpaidPlans}" th:text="${plan.planId} + ' - ' + ${plan.planName}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>Filter Customers</h2>
+        <div class="filter-buttons">
+            <button onclick="window.location.href='/customers?filter=all'">All Customers</button>
+            <button onclick="window.location.href='/customers?filter=prepaid'">Prepaid Customers</button>
+            <button onclick="window.location.href='/customers?filter=postpaid'">Postpaid Customers</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Chosen Plan</th>
+                    <th>Remaining TT</th>
+                    <th>Remaining Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.id}"></td>
+                    <td th:text="${customer.name}"></td>
+                    <td th:text="${customer.email}"></td>
+                    <td th:text="${customer.phoneNumber}"></td>
+                    <td>
+                        <span th:if="${customer.prepaidPlan != null}" th:text="'Prepaid Plan: ' + ${customer.prepaidPlan}"></span>
+                        <span th:if="${customer.postpaidPlan != null}" th:text="'Postpaid Plan: ' + ${customer.postpaidPlan}"></span>
+                    </td>
+                    <td th:text="${customer.remainingBalance}"></td>
+                    <td th:text="${customer.remainingData}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
