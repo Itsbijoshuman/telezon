@@ -29,6 +29,9 @@ public class Customer {
 
     @Column(name="remaining_balance")
     private Double remainingBalance;  
+    
+    @Column(name="charges")
+    private Double charges=0.0; 
 
     public Integer getId() {
         return id;
@@ -82,8 +85,16 @@ public class Customer {
         return remainingBalance;
     }
 
-    public void setRemainingBalance(Double remainingBalance) {  // Setter for the new column
+    public void setRemainingBalance(Double remainingBalance) {
         this.remainingBalance = remainingBalance;
+    }
+
+    public Double getCharges() {   
+        return charges;
+    }
+
+    public void setCharges(Double charges) {  
+        this.charges = charges;
     }
 
     @Override
@@ -94,6 +105,7 @@ public class Customer {
                ", phoneNumber=" + phoneNumber +
                ", prepaidPlan=" + prepaidPlan +
                ", postpaidPlan=" + postpaidPlan +
-               ", remainingBalance=" + remainingBalance + "]";  // Included in toString()
+               ", remainingBalance=" + remainingBalance +
+               ", charges=" + charges + "]";  
     }
 }

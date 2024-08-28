@@ -11,4 +11,5 @@ import java.util.List;
 public interface CustomerDao extends JpaRepository<Customer, Integer> {
     List<Customer> findByPrepaidPlanIsNotNull();
     List<Customer> findByPostpaidPlanIsNotNull();
+    Customer findByName(String name);
 }

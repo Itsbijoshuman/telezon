@@ -51,4 +51,13 @@ public class CustomerService {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
         customerDao.delete(customer);
     }
+    
+    public void updateChargesFromCall(String fromName, Double callCharge) {
+        Customer customer = customerDao.findByName(fromName);
+        if (customer != null) {
+            Double currentCharges = customer.getCharges() != null ? customer.getCharges() : 0.0;
+            customer.setCharges(currentCharges + callCharge);
+            customerDao.save(customer);
+        }
+    }
 }

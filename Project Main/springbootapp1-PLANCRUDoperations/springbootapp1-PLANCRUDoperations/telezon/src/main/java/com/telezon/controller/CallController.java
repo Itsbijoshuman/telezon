@@ -2,8 +2,10 @@ package com.telezon.controller;
 
 import com.telezon.model.Call;
 import com.telezon.model.Customer;
+import com.telezon.model.Postpaid;
 import com.telezon.service.CallService;
 import com.telezon.service.CustomerService;
+import com.telezon.service.PostpaidService;
 import com.telezon.dao.CallDao;
 import com.telezon.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class CallController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private PostpaidService postpaidService;
 
 	@GetMapping
 	public String listCalls(Model model) {
@@ -48,8 +53,10 @@ public class CallController {
 
 	@PostMapping
 	public String addCall(@ModelAttribute Call call) {
-		callService.saveCall(call);
+	    // Save the initial call details
+	    callService.saveCall(call);
 
+	    // Fetch the customer based on the 'fromName' dropdown selection
 	    List<Customer> customers = customerService.getCustomers();
 	    Optional<Customer> customerOpt = customers.stream()
 	                                              .filter(c -> c.getName().equals(call.getFromName()))
@@ -58,23 +65,45 @@ public class CallController {
 	    if (customerOpt.isPresent()) {
 	        Customer customer = customerOpt.get();
 
-	        double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
-	        customer.setRemainingBalance(newBalance);
+	        // Handle Prepaid Customer (Existing logic, no changes)
+	        if (customer.getPrepaidPlan() != null) {
+	            double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
+	            customer.setRemainingBalance(newBalance);
+	            customerService.updateCustomer(customer.getId(), customer);
+	        }
+	        // Handle Postpaid Customer (New logic)
+	        else if (customer.getPostpaidPlan() != null) {
+	            // Fetch the corresponding Postpaid Plan using the PostpaidService
+	            Integer postpaidPlanId = customer.getPostpaidPlan();
+	            Postpaid postpaidPlan = postpaidService.getPostpaidPlans().stream()
+	                    .filter(p -> p.getPlanId().equals(postpaidPlanId))
+	                    .findFirst()
+	                    .orElse(null);
 
-	        // Update the customer in the database
-	        customerService.updateCustomer(customer.getId(), customer);
+	            if (postpaidPlan != null) {
+	                // Calculate instance charge based on used duration and plan price
+	                double instanceCharge = postpaidPlan.getPlanPrice() * call.getUsedDuration();
+	                call.setInstanceCharge(instanceCharge);
+
+	                // Save the updated call with the instance charge
+	                customerService.updateChargesFromCall(call.getFromName(), call.getInstanceCharge());
+	                callService.updateCall(call);
+	            }
+	        }
 	    }
-		return "redirect:/calls";
+
+	    return "redirect:/calls";
 	}
+
 
 	@GetMapping("/{id}")
 	public String editCall(@PathVariable Integer id, Model model) {
 		Optional<Call> call = callService.getCallById(id);
 		if (call.isPresent()) {
 			model.addAttribute("call", call.get());
-			return "call"; // Refers to call.html for editing
+			return "call"; 
 		} else {
-			return "redirect:/calls"; // Redirect if the call is not found
+			return "redirect:/calls"; 
 		}
 	}
 
@@ -84,13 +113,13 @@ public class CallController {
 			call.setCid(id);
 			callService.updateCall(call);
 		}
-		return "redirect:/calls"; // Redirect to /calls URL
+		return "redirect:/calls"; 
 	}
 
 	@DeleteMapping("/{id}")
 	public String deleteCall(@PathVariable Integer id) {
 		callService.deleteCall(id);
-		return "redirect:/calls"; // Redirect to /calls URL
+		return "redirect:/calls"; 
 	}
 
 	@GetMapping("/calls")

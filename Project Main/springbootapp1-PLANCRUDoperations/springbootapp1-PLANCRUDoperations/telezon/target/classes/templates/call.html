@@ -19,13 +19,11 @@
 			const fromValue = fromDropdown.value;
 			const toValue = toDropdown.value;
 
-			// Enable all options initially
 			for (let i = 0; i < fromDropdown.options.length; i++) {
 				fromDropdown.options[i].disabled = false;
 				toDropdown.options[i].disabled = false;
 			}
 
-			// Disable options in 'to' dropdown that match 'from' dropdown's value
 			if (fromValue) {
 				const toOption = toDropdown.querySelector(`option[value="${fromValue}"]`);
 				if (toOption) {
@@ -33,7 +31,6 @@
 				}
 			}
 
-			// Disable options in 'from' dropdown that match 'to' dropdown's value
 			if (toValue) {
 				const fromOption = fromDropdown.querySelector(`option[value="${toValue}"]`);
 				if (fromOption) {
@@ -51,17 +48,14 @@
 				return;
 			}
 
-			// Get remaining balance from data attributes
 			const remainingBalance = selectedOption.getAttribute('data-remaining-balance') || '';
 
-			// Log the remaining balance to the console
 			console.log('Remaining Balance:', remainingBalance);
 
-			// Update total duration input field
 			const totalDurationInput = document.getElementById('totalDuration');
 			if (totalDurationInput) {
 				totalDurationInput.value = remainingBalance;
-				totalDurationInput.disabled = !remainingBalance; // Disable if no balance is available
+				totalDurationInput.disabled = !remainingBalance; 
 			}
 
 			updateCustomerTypeMessage(remainingBalance);
@@ -143,6 +137,7 @@
 				<th>Total Duration</th>
 				<th>Used Duration</th>
 				<th>Remaining Duration</th>
+				<th>Instance Charge</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -153,6 +148,8 @@
 				<td th:text="${call.totalDuration}"></td>
 				<td th:text="${call.usedDuration}"></td>
 				<td th:text="${call.remainingDuration}"></td>
+				<td th:text="${call.instanceCharge}"></td>
+
 			</tr>
 		</tbody>
 	</table>
