@@ -136,6 +136,7 @@
                     <th>Phone Number</th>
                     <th>Chosen Plan</th>
                     <th>Remaining TT</th>
+                    <th>Remaining Data</th>
                 </tr>
             </thead>
             <tbody>
@@ -149,6 +150,7 @@
                         <span th:if="${customer.postpaidPlan != null}" th:text="'Postpaid Plan: ' + ${customer.postpaidPlan}"></span>
                     </td>
                     <td th:text="${customer.remainingBalance}"></td>
+                     <td th:text="${customer.remainingData}"></td>
                 </tr>
             </tbody>
         </table>
