@@ -7,28 +7,32 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "calls")
 public class Call {
 
     @Id
     private Integer cid;
-    private String name;
+
+    private String fromName;  
     private Double totalDuration;
     private Double usedDuration;
+    private String toName;  
+    private Double instanceCharge;  // New field for instance charge
 
-    // Constructors
+    // Default constructor
     public Call() {}
 
-    public Call(Integer cid, String name, Double totalDuration, Double usedDuration) {
+    // Parameterized constructor
+    public Call(Integer cid, String fromName, Double totalDuration, Double usedDuration, String toName) {
         this.cid = cid;
-        this.name = name;
+        this.fromName = fromName;
         this.totalDuration = totalDuration;
         this.usedDuration = usedDuration;
+        this.toName = toName;
     }
 
-    // Getters and Setters
+    // Getters and Setters for all fields
     public Integer getCid() {
         return cid;
     }
@@ -37,12 +41,12 @@ public class Call {
         this.cid = cid;
     }
 
-    public String getName() {
-        return name;
+    public String getFromName() {
+        return fromName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
     }
 
     public Double getTotalDuration() {
@@ -61,7 +65,37 @@ public class Call {
         this.usedDuration = usedDuration;
     }
 
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
+    public Double getInstanceCharge() {   // Getter for instanceCharge
+        return instanceCharge;
+    }
+
+    public void setInstanceCharge(Double instanceCharge) {  // Setter for instanceCharge
+        this.instanceCharge = instanceCharge;
+    }
+
+    // Calculated field for remaining duration
     public Double getRemainingDuration() {
-        return totalDuration - usedDuration; // Calculated in Java
+    	 if (totalDuration == null ) {
+    		 return usedDuration; // Or return some default value like 0.0
+    	    }
+    	    return totalDuration - usedDuration;
+    }
+
+    @Override
+    public String toString() {
+        return "Call [cid=" + cid +
+               ", fromName=" + fromName +
+               ", totalDuration=" + totalDuration +
+               ", usedDuration=" + usedDuration +
+               ", toName=" + toName +
+               ", instanceCharge=" + instanceCharge + "]";  // Included in toString()
     }
 }

@@ -1,7 +1,11 @@
 package com.telezon.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,21 +14,23 @@ public class Data {
 
     @Id
     private Integer id;
-    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     private Double totalData;
     private Double usedData;
 
-    // Constructors
     public Data() {}
 
-    public Data(Integer id, String name, Double totalData, Double usedData) {
+    public Data(Integer id, Customer customer, Double totalData, Double usedData) {
         this.id = id;
-        this.name = name;
+        this.customer = customer;
         this.totalData = totalData;
         this.usedData = usedData;
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -33,12 +39,12 @@ public class Data {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Double getTotalData() {

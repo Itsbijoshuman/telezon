@@ -11,11 +11,10 @@
             <li><a href="/postpaid">Postpaid Plans</a></li>
             <li><a href="/prepaid">Prepaid Plans</a></li>
             <li><a href="/customers">Customers</a></li>
-            <li><a href="/plans">Plans</a></li>
-            <li><a href="/data">Data</a></li> <!-- Navigation link for Data -->
+            <li><a href="/calls">Calls</a></li> 
+            <li><a href="/data">Data</a></li>
         </ul>
     </nav>
-
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
@@ -23,8 +22,11 @@
         <label for="id">ID:</label>
         <input type="text" id="id" th:field="*{id}" />
         
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}" />
+        <label for="customer">Customer:</label>
+        <select id="customer" th:field="*{customer}">
+            <option value="" disabled selected>Select a customer</option>
+            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.name}"></option>
+        </select>
         
         <label for="totalData">Total Data (GB):</label>
         <input type="text" id="totalData" th:field="*{totalData}" />
@@ -40,7 +42,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Customer</th>
                 <th>Total Data (GB)</th>
                 <th>Used Data (GB)</th>
                 <th>Remaining Data (GB)</th>
@@ -49,7 +51,7 @@
         <tbody>
             <tr th:each="data : ${dataList}">
                 <td th:text="${data.id}"></td>
-                <td th:text="${data.name}"></td>
+                <td th:text="${data.customer.name}"></td>
                 <td th:text="${data.totalData}"></td>
                 <td th:text="${data.usedData}"></td>
                 <td th:text="${data.remainingData}"></td>

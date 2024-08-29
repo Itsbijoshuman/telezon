@@ -26,7 +26,6 @@ public class Prepaid {
     @Column(name="duration")
     private Integer duration;
 
-    // Getters and Setters
 
     public Integer getPlanId() {
         return planId;

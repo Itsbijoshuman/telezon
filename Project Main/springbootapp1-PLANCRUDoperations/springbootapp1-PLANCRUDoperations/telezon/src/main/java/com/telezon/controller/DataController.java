@@ -1,6 +1,9 @@
 package com.telezon.controller;
 
 import com.telezon.model.Data;
+
+import com.telezon.model.Customer;
+import com.telezon.service.CustomerService;
 import com.telezon.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +20,16 @@ public class DataController {
     @Autowired
     private DataService dataService;
 
+    @Autowired
+    private CustomerService customerService;
+
     @GetMapping
     public String listData(Model model) {
         List<Data> dataList = dataService.getAllData();
+        List<Customer> customerList = customerService.getCustomers();
         model.addAttribute("dataList", dataList);
         model.addAttribute("data", new Data()); // Prepare an empty Data object for form binding
+        model.addAttribute("customerList", customerList); // Add customer list to model
         return "data"; // Refers to data.html
     }
 
@@ -34,8 +42,10 @@ public class DataController {
     @GetMapping("/{id}")
     public String editData(@PathVariable Integer id, Model model) {
         Optional<Data> data = dataService.getDataById(id);
+        List<Customer> customerList = customerService.getCustomers();
         if (data.isPresent()) {
             model.addAttribute("data", data.get());
+            model.addAttribute("customerList", customerList); // Add customer list for editing
             return "data"; // Refers to data.html for editing
         } else {
             return "redirect:/data"; // Redirect if the data is not found
