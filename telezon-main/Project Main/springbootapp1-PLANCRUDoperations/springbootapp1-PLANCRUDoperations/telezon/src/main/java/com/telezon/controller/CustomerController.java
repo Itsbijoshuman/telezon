@@ -57,13 +57,15 @@ public class CustomerController {
         if (customer.getPrepaidPlan() != null) {
         	Prepaid selectedPrepaidPlan = prepaidService.getPrepaidPlanById(customer.getPrepaidPlan());
             customer.setRemainingBalance((double) selectedPrepaidPlan.getDuration());
+            customer.setPostpaidPlan(null);
             customer.setRemainingData((double)selectedPrepaidPlan.getPlanLimit());
             customer.setPostpaidPlan(null);
-        } else if (customer.getPostpaidPlan() != null) {
-        	Postpaid selectedPostpaidPlan = postpaidService.getPostpaidPlanById(customer.getPostpaidPlan());
-            customer.setRemainingData(selectedPostpaidPlan.getPlanDataCap());
+        } else if (customer.getPostpaidPlan() != null) {        	
         	customer.setPrepaidPlan(null);
             customer.setRemainingBalance(null);
+            customer.setPrepaidPlan(null);
+            customer.setRemainingBalance(null);
+
         }
 
         customerService.addCustomer(customer);

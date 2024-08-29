@@ -33,7 +33,7 @@
 		if (!customerTypeMessage) {
 			console.error('Customer type message element not found');
 			return;
-			}
+		}
 
 		if (remainingData) {
 			customerTypeMessage.textContent = "This is a prepaid customer.";
@@ -43,8 +43,14 @@
 	}
 		
 	window.onload = function(){
-	updateTotalData();
-		}
+		updateTotalData();
+		
+	};
+	
+	function onSubmitForm(){
+		updateTotalData();
+		return true;
+	}
 		
 	</script>
 </head>
@@ -68,7 +74,11 @@
         <label for="customer">Customer:</label>
         <select id="customer" th:field="*{customer}" onchange="updateTotalData()">
             <option value="" disabled selected>Select a customer</option>
-            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.name}" th:attr="data-remaining-Data=${customer.remainingData}"></option>
+            <option th:each="customer : ${customerList}"
+                    th:value="${customer.id}" 
+                    th:text="${customer.name}" 
+                    th:attr="data-remaining-Data=${customer.remainingData}">
+           </option>
         </select>
         
         <div id="customerTypeMessage"></div>
