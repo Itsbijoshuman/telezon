@@ -22,7 +22,7 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class TelezonprepaidTest {
+public class TelezonpostpaidTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
@@ -37,34 +37,34 @@ public class TelezonprepaidTest {
     driver.quit();
   }
   @Test
-  public void telezonprepaid() {
-    // Test name: telezon prepaid
+  public void telezonpostpaid() {
+    // Test name: telezon postpaid
     // Step # | name | target | value | comment
-    // 1 | open | /prepaid |  | 
-    driver.get("http://localhost:8082/customers/prepaid");
-    // 2 | setWindowSize | 789x912 |  | 
-    driver.manage().window().setSize(new Dimension(789, 912));
+    // 1 | open | http://localhost:8082/postpaid |  | 
+    driver.get("http://localhost:8082/postpaid");
+    // 2 | setWindowSize | 790x912 |  | 
+    driver.manage().window().setSize(new Dimension(790, 912));
     // 3 | click | xpath=//input[@id='planId'] |  | 
     driver.findElement(By.xpath("//input[@id=\'planId\']")).click();
-    // 4 | type | xpath=//input[@id='planId'] | 101 | 
-    driver.findElement(By.xpath("//input[@id=\'planId\']")).sendKeys("101");
+    // 4 | type | xpath=//input[@id='planId'] | 201 | 
+    driver.findElement(By.xpath("//input[@id=\'planId\']")).sendKeys("201");
     // 5 | click | xpath=//input[@id='planName'] |  | 
     driver.findElement(By.xpath("//input[@id=\'planName\']")).click();
-    // 6 | type | xpath=//input[@id='planName'] | plan111 | 
-    driver.findElement(By.xpath("//input[@id=\'planName\']")).sendKeys("plan111");
+    // 6 | type | xpath=//input[@id='planName'] | plan222 | 
+    driver.findElement(By.xpath("//input[@id=\'planName\']")).sendKeys("plan222");
     // 7 | click | xpath=//input[@id='planPrice'] |  | 
     driver.findElement(By.xpath("//input[@id=\'planPrice\']")).click();
-    // 8 | type | xpath=//input[@id='planPrice'] | 111 | 
-    driver.findElement(By.xpath("//input[@id=\'planPrice\']")).sendKeys("111");
-    // 9 | click | xpath=//input[@id='planLimit'] |  | 
-    driver.findElement(By.xpath("//input[@id=\'planLimit\']")).click();
-    // 10 | type | xpath=//input[@id='planLimit'] | 50 | 
-    driver.findElement(By.xpath("//input[@id=\'planLimit\']")).sendKeys("50");
-    // 11 | click | xpath=//input[@id='duration'] |  | 
-    driver.findElement(By.xpath("//input[@id=\'duration\']")).click();
-    // 12 | type | xpath=//input[@id='duration'] | 28 | 
-    driver.findElement(By.xpath("//input[@id=\'duration\']")).sendKeys("28");
-    // 13 | click | xpath=//button[contains(.,'Add Prepaid Plan')] |  | 
-    driver.findElement(By.xpath("//button[contains(.,\'Add Prepaid Plan\')]")).click();
+    // 8 | type | xpath=//input[@id='planPrice'] | 222 | 
+    driver.findElement(By.xpath("//input[@id=\'planPrice\']")).sendKeys("222");
+    // 9 | click | xpath=//input[@id='planBillCycle'] |  | 
+    driver.findElement(By.xpath("//input[@id=\'planBillCycle\']")).click();
+    // 10 | type | xpath=//input[@id='planBillCycle'] | 45 | 
+    driver.findElement(By.xpath("//input[@id=\'planBillCycle\']")).sendKeys("45");
+    // 11 | click | xpath=//input[@id='planDataCap'] |  | 
+    driver.findElement(By.xpath("//input[@id=\'planDataCap\']")).click();
+    // 12 | type | xpath=//input[@id='planDataCap'] | 60 | 
+    driver.findElement(By.xpath("//input[@id=\'planDataCap\']")).sendKeys("60");
+    // 13 | click | xpath=//button[contains(.,'Add Postpaid Plan')] |  | 
+    driver.findElement(By.xpath("//button[contains(.,\'Add Postpaid Plan\')]")).click();
   }
 }

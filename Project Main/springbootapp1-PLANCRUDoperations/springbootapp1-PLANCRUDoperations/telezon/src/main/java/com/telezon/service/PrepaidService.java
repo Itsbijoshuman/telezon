@@ -19,6 +19,10 @@ public class PrepaidService {
         return prepaidDao.findAll();
     }
 
+    public Prepaid getPrepaidPlanById(Integer planId) {
+        return prepaidDao.findById(planId).orElseThrow(() -> new RuntimeException("Prepaid Plan not found"));
+    }
+    
     public void addPrepaidPlan(Prepaid prepaid) {
         prepaidDao.save(prepaid);
     }

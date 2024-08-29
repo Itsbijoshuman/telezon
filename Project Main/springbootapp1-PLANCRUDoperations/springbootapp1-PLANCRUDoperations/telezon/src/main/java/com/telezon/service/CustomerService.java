@@ -7,6 +7,7 @@ import com.telezon.model.Customer;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,10 +42,22 @@ public class CustomerService {
         existingCustomer.setEmail(customer.getEmail());
         existingCustomer.setPhoneNumber(customer.getPhoneNumber());
         return customerDao.save(existingCustomer);
-    }
+    } 	
 
+    public Optional<Customer> getCustomerById(int cid) {
+        return customerDao.findById(cid);
+    }
     public void deleteCustomer(Integer customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
         customerDao.delete(customer);
+    }
+    
+    public void updateChargesFromCall(String fromName, Double callCharge) {
+        Customer customer = customerDao.findByName(fromName);
+        if (customer != null) {
+            Double currentCharges = customer.getCharges() != null ? customer.getCharges() : 0.0;
+            customer.setCharges(currentCharges + callCharge);
+            customerDao.save(customer);
+        }
     }
 }
