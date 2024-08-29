@@ -77,3 +77,4 @@ document.addEventListener('DOMContentLoaded', () => {
         toDropdown.addEventListener('change', disableSelectedOptions);
         disableSelectedOptions();
     }
+});

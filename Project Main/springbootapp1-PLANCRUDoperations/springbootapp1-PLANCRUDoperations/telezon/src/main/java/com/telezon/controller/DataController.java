@@ -1,6 +1,7 @@
 package com.telezon.controller;
 
 import com.telezon.model.Data;
+import com.telezon.model.Call;
 import com.telezon.model.Customer;
 import com.telezon.service.CustomerService;
 import com.telezon.service.DataService;
@@ -31,12 +32,34 @@ public class DataController {
         model.addAttribute("customerList", customerList); // Add customer list to model
         return "data"; // Refers to data.html
     }
-
+    
     @PostMapping
     public String addData(@ModelAttribute Data data) {
-        dataService.saveData(data);
-        return "redirect:/data"; // Redirects to /data URL
+        // Retrieve the customer associated with the data
+        Optional<Customer> customerOpt = customerService.getCustomers().stream()
+                .filter(c -> c.getId().equals(data.getCustomer().getId())) // Match customer by ID
+                .findFirst();
+
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+
+            // Set the totalData field based on the customer's remainingData
+            data.setTotalData(customer.getRemainingData());
+
+            // Update the customer's remainingData after using some of it
+            double newData = customer.getRemainingData() - data.getUsedData();
+            customer.setRemainingData(newData);
+
+            // Save the data
+            dataService.saveData(data);
+
+            // Update the customer in the database
+            customerService.updateCustomer(customer.getId(), customer);
+        }
+        
+        return "redirect:/data"; // Redirect to the data list page
     }
+
 
     @GetMapping("/{id}")
     public String editData(@PathVariable Integer id, Model model) {

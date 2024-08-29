@@ -50,18 +50,21 @@ public class CallController {
 	public String addCall(@ModelAttribute Call call) {
 		callService.saveCall(call);
 
-		Optional<Customer> customerOpt = Optional.ofNullable(customerService.getCustomerById(call.getCid()));
-		if (customerOpt.isPresent()) {
-			Customer customer = customerOpt.get();
+	    List<Customer> customers = customerService.getCustomers();
+	    Optional<Customer> customerOpt = customers.stream()
+	                                              .filter(c -> c.getName().equals(call.getFromName()))
+	                                              .findFirst();
 
-			// Update the customer's remaining balance based on the call's used duration
-			double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
-			customer.setRemainingBalance(newBalance);
+	    if (customerOpt.isPresent()) {
+	        Customer customer = customerOpt.get();
 
-			// Save the updated customer
-			customerService.updateCustomer(102,customer);
-		}
+	        double newBalance = customer.getRemainingBalance() - call.getUsedDuration();
+	        customer.setRemainingBalance(newBalance);
+	        
 
+	        // Update the customer in the database
+	        customerService.updateCustomer(customer.getId(), customer);
+	    }
 		return "redirect:/calls";
 	}
 
