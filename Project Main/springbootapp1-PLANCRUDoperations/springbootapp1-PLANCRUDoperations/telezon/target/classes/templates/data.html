@@ -4,6 +4,59 @@
     <title>Data Management</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/styles.css" />
+    
+    <script>
+        function updateTotalData() {
+            const customerDropdown = document.getElementById('customer');
+            const selectedOption = customerDropdown ? customerDropdown.options[customerDropdown.selectedIndex] : null;
+
+            if (!selectedOption) {
+                console.error('No selected option found');
+                return;
+            }
+
+            const remainingData = selectedOption.getAttribute('data-remaining-data') || '';
+            const isPostpaid = selectedOption.getAttribute('data-plan-type') === 'postpaid';
+            const totalDataInput = document.getElementById('totalData');
+            const usedDataInput = document.getElementById('usedData');
+
+            if (totalDataInput) {
+                totalDataInput.value = remainingData;
+                totalDataInput.disabled = !remainingData; 
+            }
+
+            if (isPostpaid) {
+                usedDataInput.disabled = true; // Disable usedData for postpaid
+            } else {
+                usedDataInput.disabled = false; // Enable usedData for prepaid
+            }
+
+            updateCustomerTypeMessage(remainingData, isPostpaid);
+        }
+
+        function updateCustomerTypeMessage(remainingData, isPostpaid) {
+            const customerTypeMessage = document.getElementById('customerTypeMessage');
+            if (!customerTypeMessage) {
+                console.error('Customer type message element not found');
+                return;
+            }
+
+            if (isPostpaid) {
+                customerTypeMessage.textContent = "This is a postpaid customer.";
+            } else {
+                customerTypeMessage.textContent = "This is a prepaid customer.";
+            }
+        }
+
+        window.onload = function () {
+            updateTotalData();
+        };
+
+        function onSubmitForm() {
+            updateTotalData();
+            return true;
+        }
+    </script>
 </head>
 <body>
     <nav>
@@ -18,15 +71,22 @@
     <h1>Data Management</h1>
     
     <h2>Add Data Usage</h2>
-    <form action="#" th:action="@{/data}" th:object="${data}" method="post">
+    <form action="#" th:action="@{/data}" th:object="${data}" method="post" onsubmit="return onSubmitForm()">
         <label for="id">ID:</label>
         <input type="text" id="id" th:field="*{id}" />
         
         <label for="customer">Customer:</label>
-        <select id="customer" th:field="*{customer}">
+        <select id="customer" th:field="*{customer}" onchange="updateTotalData()">
             <option value="" disabled selected>Select a customer</option>
-            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            <option th:each="customer : ${customerList}" 
+                    th:value="${customer.id}" 
+                    th:text="${customer.name}" 
+                    th:attr="data-remaining-data=${customer.remainingData}, data-plan-type=${customer.prepaidPlan != null ? 'prepaid' : 'postpaid'}">
+            </option>
         </select>
+        
+        <!-- Customer Type Message -->
+        <div id="customerTypeMessage"></div>
         
         <label for="totalData">Total Data (GB):</label>
         <input type="text" id="totalData" th:field="*{totalData}" />

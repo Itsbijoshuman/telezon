@@ -60,4 +60,22 @@ public class CustomerService {
             customerDao.save(customer);
         }
     }
+    
+    public void updateRemainingData(String customerName, Double usedData) {
+        Customer customer = customerDao.findByName(customerName);
+        if (customer != null && customer.getPrepaidPlan() != null) {
+            Double currentRemainingData = customer.getRemainingData() != null ? customer.getRemainingData() : 0.0;
+            customer.setRemainingData(currentRemainingData - usedData);
+            customerDao.save(customer);
+        }
+    }
+    
+    public void updateChargesFromData(String customerName, Double dataCharge) {
+        Customer customer = customerDao.findByName(customerName);
+        if (customer != null && customer.getPostpaidPlan() != null) {
+            Double currentCharges = customer.getCharges() != null ? customer.getCharges() : 0.0;
+            customer.setCharges(currentCharges + dataCharge);
+            customerDao.save(customer);
+        }
+    }
 }

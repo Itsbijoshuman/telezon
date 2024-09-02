@@ -15,8 +15,7 @@ public class Data {
     @Id
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+
     private Customer customer;
 
     private Double totalData;
