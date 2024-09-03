@@ -141,6 +141,12 @@ table th, table td {
     font-size: 0.95em;
 }
 
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: justify;
+}
+
 table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
