@@ -6,24 +6,37 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="prepaid")
 public class Prepaid {
 
     @Id
+    //@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer planId;
 
     @Column(name="plan_name")
+    @NotBlank(message = "Plan name cannot be empty")
+    @Size(min = 1, max = 50, message = "Plan name must be between 1 and 50 characters")
     private String planName;
 
     @Column(name="plan_price")
+    @NotNull(message = "Plan price cannot be null")
+    @Min(value = 0, message = "Plan price must be a positive number")  
     private Double planPrice;
 
     @Column(name="plan_limit")
+    @NotNull(message = "Plan limit cannot be null")
+    @Min(value = 0, message = "Plan limit must be a positive number")
     private Double planLimit;
 
     @Column(name="duration")
+    @NotNull(message = "Duration cannot be null")
+    @Min(value = 1, message = "Duration must be at least 1 day")
     private Integer duration;
 
 

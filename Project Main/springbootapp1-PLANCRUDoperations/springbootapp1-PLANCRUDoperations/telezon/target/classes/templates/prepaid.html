@@ -4,9 +4,16 @@
     <title>Prepaid Plan Management</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+        .error-message {
+            color: red;
+            font-weight: bold;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-	    <nav>
+    <nav>
         <ul>
             <li><a href="/postpaid">Postpaid Plans</a></li>
             <li><a href="/prepaid">Prepaid Plans</a></li>
@@ -17,21 +24,40 @@
     </nav>
 
     <h1>Prepaid Plan Management</h1>
-    
+
     <h2>Add Prepaid Plan</h2>
     <form action="#" th:action="@{/prepaid}" th:object="${prepaid}" method="post">
-        <label for="planId">ID:</label>
-        <input type="text" id="planId" th:field="*{planId}" />
-        <label for="planName">Name:</label>
-        <input type="text" id="planName" th:field="*{planName}" />
-        <label for="planPrice">Price:</label>
-        <input type="text" id="planPrice" th:field="*{planPrice}" />
-        <label for="planLimit">Limit:</label>
-        <input type="text" id="planLimit" th:field="*{planLimit}" />
-        <label for="duration">Duration:</label>
-        <input type="text" id="duration" th:field="*{duration}" />
+        <div>
+            <label for="planId">ID:</label>
+            <input type="text" id="planId" th:field="*{planId}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planId')}" th:errors="*{planId}"></span>
+        </div>
+        <div>
+            <label for="planName">Name:</label>
+            <input type="text" id="planName" th:field="*{planName}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planName')}" th:errors="*{planName}"></span>
+        </div>
+        <div>
+            <label for="planPrice">Price:</label>
+            <input type="text" id="planPrice" th:field="*{planPrice}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planPrice')}" th:errors="*{planPrice}"></span>
+        </div>
+        <div>
+            <label for="planLimit">Limit:</label>
+            <input type="text" id="planLimit" th:field="*{planLimit}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planLimit')}" th:errors="*{planLimit}"></span>
+        </div>
+        <div>
+            <label for="duration">Duration:</label>
+            <input type="text" id="duration" th:field="*{duration}" />
+            <span class="error-message" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></span>
+        </div>
         <button type="submit">Add Prepaid Plan</button>
     </form>
+
+    <div th:if="${error != null}">
+        <p class="error-message" th:text="${error}"></p>
+    </div>
 
     <h2>All Prepaid Plans</h2>
     <table>
