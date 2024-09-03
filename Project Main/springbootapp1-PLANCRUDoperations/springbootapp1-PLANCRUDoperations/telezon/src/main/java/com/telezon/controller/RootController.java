@@ -8,6 +8,6 @@ public class RootController {
 
     @GetMapping("/")
     public String redirectToPlans() {
-        return "redirect:/plans";
+        return "redirect:/postpaid";
     }
 }

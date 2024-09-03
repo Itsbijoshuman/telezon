@@ -74,6 +74,7 @@ public class DataController {
                     double charge = postpaidPlan.getPlanPrice() * data.getUsedData();
                 	data.setInstanceCharge(charge);
                     customerService.updateChargesFromData(customer.getName(), charge);
+                    dataService.updateData(data);
                     
                 }
             }
