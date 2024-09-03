@@ -84,7 +84,7 @@ public class Call {
     // Calculated field for remaining duration
     public Double getRemainingDuration() {
     	 if (totalDuration == null ) {
-    		 return usedDuration; // Or return some default value like 0.0
+    		 return 0.0; // Or return some default value like 0.0
     	    }
     	    return totalDuration - usedDuration;
     }

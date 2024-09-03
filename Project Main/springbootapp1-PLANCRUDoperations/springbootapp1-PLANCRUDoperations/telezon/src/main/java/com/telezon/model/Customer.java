@@ -32,6 +32,9 @@ public class Customer {
     
     @Column(name="charges")
     private Double charges=0.0; 
+    
+    @Column(name="remaining_data")
+    private Double remainingData; 
 
     public Integer getId() {
         return id;
@@ -96,7 +99,16 @@ public class Customer {
     public void setCharges(Double charges) {  
         this.charges = charges;
     }
+    
+    public Double getRemainingData() {   
+        return remainingData;
+    }
 
+    public void setRemainingData(Double remainingData) { 
+        this.remainingData = remainingData;
+    }
+
+   
     @Override
     public String toString() {
         return "Customer [id=" + id +
@@ -106,6 +118,7 @@ public class Customer {
                ", prepaidPlan=" + prepaidPlan +
                ", postpaidPlan=" + postpaidPlan +
                ", remainingBalance=" + remainingBalance +
-               ", charges=" + charges + "]";  
+               ", charges=" + charges + 
+               ", remainingData=" + remainingData +"]";  
     }
 }

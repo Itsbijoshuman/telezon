@@ -84,6 +84,7 @@ public class CallController {
 	                // Calculate instance charge based on used duration and plan price
 	                double instanceCharge = postpaidPlan.getPlanPrice() * call.getUsedDuration();
 	                call.setInstanceCharge(instanceCharge);
+	                
 
 	                // Save the updated call with the instance charge
 	                customerService.updateChargesFromCall(call.getFromName(), call.getInstanceCharge());

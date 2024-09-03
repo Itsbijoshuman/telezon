@@ -21,6 +21,8 @@ public class Data {
 
     private Double totalData;
     private Double usedData;
+    
+    private Double instanceCharge;  
 
     public Data() {}
 
@@ -62,8 +64,20 @@ public class Data {
     public void setUsedData(Double usedData) {
         this.usedData = usedData;
     }
+    
+    public Double getInstanceCharge() {   // Getter for instanceCharge
+        return instanceCharge;
+    }
+
+    public void setInstanceCharge(Double instanceCharge) {  // Setter for instanceCharge
+        this.instanceCharge = instanceCharge;
+    }
+
 
     public Double getRemainingData() {
+   	 if (totalData == null ) {
+		 return 0.0; // Or return some default value like 0.0
+	    }
         return totalData - usedData; // Calculated in Java
     }
 }

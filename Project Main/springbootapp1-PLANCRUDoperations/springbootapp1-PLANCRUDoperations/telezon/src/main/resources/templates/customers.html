@@ -141,6 +141,7 @@
 					<th>Phone Number</th>
 					<th>Chosen Plan</th>
 					<th>Remaining TT</th>
+					<th>Remaining Data</th>
 					<th>Due Charges</th>
 				</tr>
 			</thead>
@@ -157,6 +158,7 @@
 							th:text="'Postpaid Plan: ' + ${customer.postpaidPlan}"></span>
 					</td>
 					<td th:text="${customer.remainingBalance}"></td>
+					<td th:text="${customer.remainingData}"></td>
 					<td th:text="${customer.charges}"></td>
 				</tr>
 			</tbody>

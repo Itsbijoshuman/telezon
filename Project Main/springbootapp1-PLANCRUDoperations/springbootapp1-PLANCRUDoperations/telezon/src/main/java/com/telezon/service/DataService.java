@@ -27,7 +27,7 @@ public class DataService {
     }
 
     public void updateData(Data data) {
-        dataDao.save(data); // save can handle both insert and update
+        dataDao.save(data); 
     }
 
     public void deleteData(int id) {
