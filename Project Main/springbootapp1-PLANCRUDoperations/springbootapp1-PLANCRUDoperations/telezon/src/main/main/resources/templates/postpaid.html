@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Postpaid Plan Management</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/postpaid">Postpaid Plans</a></li>
+            <li><a href="/prepaid">Prepaid Plans</a></li>
+            <li><a href="/customers">Customers</a></li>
+            <li><a href="/calls">Calls</a></li>
+            <li><a href="/data">Data</a></li> 
+        </ul>
+    </nav>
+    
+    <h1>Postpaid Plan Management</h1>
+
+    <h2>Add Postpaid Plan</h2>
+    <form th:action="@{/postpaid}" th:object="${postpaid}" method="post">
+        <div>
+            <label for="planId">ID:</label>
+            <input type="text" id="planId" th:field="*{planId}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planId')}" th:errors="*{planId}"></span>
+        </div>
+        <div>
+            <label for="planName">Name:</label>
+            <input type="text" id="planName" th:field="*{planName}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planName')}" th:errors="*{planName}"></span>
+        </div>
+        <div>
+            <label for="planPrice">Price:</label>
+            <input type="text" id="planPrice" th:field="*{planPrice}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planPrice')}" th:errors="*{planPrice}"></span>
+        </div>
+        <div>
+            <label for="planBillCycle">Bill Cycle:</label>
+            <input type="text" id="planBillCycle" th:field="*{planBillCycle}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planBillCycle')}" th:errors="*{planBillCycle}"></span>
+        </div>
+        <div>
+            <label for="planDataCap">Data Cap:</label>
+            <input type="text" id="planDataCap" th:field="*{planDataCap}" />
+            <span class="error-message" th:if="${#fields.hasErrors('planDataCap')}" th:errors="*{planDataCap}"></span>
+        </div>
+
+        <!-- Error Message Block -->
+        <div th:if="${errorMessage}" class="error-message" style="color: red; font-weight: bold; text-align: center;">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <button type="submit">Add Postpaid Plan</button>
+    </form>
+
+    <h2>All Postpaid Plans</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Bill Cycle</th>
+                <th>Data Cap</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="postpaid : ${postpaidPlans}">
+                <td th:text="${postpaid.planId}"></td>
+                <td th:text="${postpaid.planName}"></td>
+                <td th:text="${postpaid.planPrice}"></td>
+                <td th:text="${postpaid.planBillCycle}"></td>
+                <td th:text="${postpaid.planDataCap}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Error Message Block for Table -->
+    <div th:if="${errorMessage}" class="error-message" style="color: red; font-weight: bold; text-align: center;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+</body>
+</html>
